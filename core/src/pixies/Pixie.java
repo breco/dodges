@@ -39,7 +39,7 @@ public class Pixie extends Sprite {
     public Texture curr = green;
     //shoot variables
     private int SPD_CONT = 0;
-
+    public Texture bulletTexture;
 
     public Pixie(Texture texture,int x, int y,int HP, int ATK, int SPD){
         //graphics
@@ -55,6 +55,7 @@ public class Pixie extends Sprite {
         PERCENT_HP = 100;
         COLOR_HP = 'G';
         status = "normal";
+        bulletTexture = new Texture(Gdx.files.internal("bullets/star_bullet.png"));
 
 
 
@@ -74,7 +75,7 @@ public class Pixie extends Sprite {
         SPD_CONT++;
         if(SPD_CONT < SPD) return;
         SPD_CONT = 0;
-        GameScreen.bullets.add(new PixieBullet(new Texture(Gdx.files.internal("bullets/star_bullet.png")), (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK, BULLET_SPD));
+        GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK, BULLET_SPD));
     }
     public void update(){
         if(status.equals("dead")) return;

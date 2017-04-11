@@ -69,5 +69,8 @@ public class MainHUD {
             if(items.getItems().get(i).used) batch.draw(cross,MainGame.WIDTH/10.5f+i*MainGame.WIDTH/3,MainGame.HEIGHT/24,100,100);
             //items.getItems().get(i).draw(batch);
         }
+        for(Item item : items.getItems()){
+            if(item.touched) item.draw(batch);
+        }
     }
 }

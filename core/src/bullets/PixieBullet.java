@@ -26,4 +26,10 @@ public class PixieBullet extends Bullet {
             }
         }
     }
+    public void destroy(){
+        if(getY() >= 1300){
+            //Gdx.app.log("DELETE BULLET PIXIE","THIS");
+            GameScreen.bullets.remove(this);
+        }
+    }
 }

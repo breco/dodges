@@ -17,7 +17,7 @@ import enemies.Enemies;
 import huds.MainHUD;
 import items.Fruit;
 import items.Items;
-import pixies.Pixie;
+import pixies.Aqua;
 import pixies.Pixies;
 import utils.MyGestures;
 import utils.OrthographicCameraWithVirtualViewport;
@@ -26,7 +26,7 @@ import utils.TimeManager;
 
 public class GameScreen implements Screen {
     private MainGame game;
-    private OrthographicCamera cam;
+    public static OrthographicCamera cam;
     public Vector3 vec;
 
     //GAME LOGIC OBJECTS
@@ -61,9 +61,9 @@ public class GameScreen implements Screen {
 
 
         pixies = new Pixies();
-        pixies.add(new Pixie(new Texture(Gdx.files.internal("pixies/tera.png")),0,-250,30,2,30));
-        pixies.add(new Pixie(new Texture(Gdx.files.internal("pixies/aqua.png")),150,-250,30,2,30));
-        pixies.add(new Pixie(new Texture(Gdx.files.internal("pixies/agni.png")),-150,-250,30,2,30));
+        pixies.add(new Aqua(0,-250,30,2,30));
+        //pixies.add(new Agni(150,-250,30,2,30));
+        //pixies.add(new Tera(-150,-250,30,2,30));
         enemies = new Enemies();
         //pos x, pos y, move to, HP, ATK, TIME
         int test = MainGame.HEIGHT/2;
@@ -91,7 +91,7 @@ public class GameScreen implements Screen {
         enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,100,5,70));
         bullets = new Bullets();
         items = new Items();
-        items.add(new Fruit(new Texture(Gdx.files.internal("items/orangefruit.png")),"auto"));
+        items.add(new Fruit(new Texture(Gdx.files.internal("items/orangefruit.png")),"select"));
         items.add(new Fruit(new Texture(Gdx.files.internal("items/mirror.png")),"auto"));
         items.add(new Fruit(new Texture(Gdx.files.internal("items/star.png")),"auto"));
 
@@ -115,6 +115,7 @@ public class GameScreen implements Screen {
         pixies.update();
         enemies.update();
         bullets.update();
+        items.update();
 
     }
     public void input(){
@@ -138,7 +139,8 @@ public class GameScreen implements Screen {
         }
         if(MyGestures.isTouchUp()){
             pixies.setUntouched();
-
+            items.touchUp();
+            items.setUntouched();
         }
 
 

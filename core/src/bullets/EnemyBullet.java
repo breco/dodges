@@ -1,6 +1,7 @@
 package bullets;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.breco.dodges.MainGame;
 
 import pixies.Pixie;
 import screens.GameScreen;
@@ -24,6 +25,12 @@ public class EnemyBullet extends Bullet {
                 GameScreen.bullets.remove(this);
                 return;
             }
+        }
+    }
+    public void destroy(){
+        if(getY() <= -MainGame.HEIGHT/2){
+            //Gdx.app.log("DELETE ENEMY BULLET","THIS");
+            GameScreen.bullets.remove(this);
         }
     }
 }
