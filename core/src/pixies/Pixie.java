@@ -26,10 +26,13 @@ public class Pixie extends Sprite {
 
     //stats
 
-    public int HP,ATK,SPD;
+    public int HP,SPD;
+    //attack
+    private int ATK_FIXED, ATK_VARIABLE = 0,ATK_TOTAL;
     public int CURRENT_HP;
     public String status;
     public int BULLET_SPD = 20;
+
 
     //variables for hud
     public float PERCENT_HP;
@@ -54,7 +57,8 @@ public class Pixie extends Sprite {
         //game logic
         this.HP = HP;
         CURRENT_HP = HP;
-        this.ATK = ATK;
+        ATK_FIXED = ATK;
+        ATK_TOTAL = ATK_FIXED + ATK_VARIABLE;
         this.SPD = SPD;
         PERCENT_HP = 100;
         COLOR_HP = 'G';
@@ -79,7 +83,7 @@ public class Pixie extends Sprite {
         SPD_CONT++;
         if(SPD_CONT < SPD) return;
         SPD_CONT = 0;
-        GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK, BULLET_SPD));
+        GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
     }
     public void update(){
         if(status.equals("dead")) return;
@@ -92,18 +96,16 @@ public class Pixie extends Sprite {
     }
     public void draw(SpriteBatch batch) {
         if(status.equals("dead")) return;
-        //batch.draw(gray,getX()-getWidth(),getY()+getHeight()*2.1f,120,10);
-        //batch.draw(curr, getX() - getWidth(), getY() + getHeight() * 2.1f, PERCENT_HP * 120 / 100, 10);
         super.draw(batch);
     }
     public void drawHUD(SpriteBatch batch){
         if(status.equals("dead")) return;
-        batch.draw(gray,getX()-getWidth(),getY()+getHeight()*2.1f,120,10);
-        batch.draw(curr, getX() - getWidth(), getY() + getHeight() * 2.1f, PERCENT_HP * 120 / 100, 10);
+        batch.draw(gray,getX()-getWidth()*1.3f,getY()+getHeight()*2.3f,120,10);
+        batch.draw(curr, getX() - getWidth() * 1.3f, getY() + getHeight() * 2.3f, PERCENT_HP * 120 / 100, 10);
     }
     public void long_input(Vector3 vec){
         if(!canBeLongTouched) return;
-        if (touchRect.contains(vec.x,vec.y)){
+        if (touchRect.contains(vec.x, vec.y)){
             longTouched = true;
             return;
         }
@@ -158,5 +160,10 @@ public class Pixie extends Sprite {
             curr = red;
             COLOR_HP = 'R';
         }
+    }
+    public void changeATK(int amount){
+        ATK_VARIABLE += amount;
+        ATK_TOTAL = ATK_FIXED + ATK_VARIABLE;
+        if(ATK_TOTAL < 0) ATK_TOTAL = 0;
     }
 }

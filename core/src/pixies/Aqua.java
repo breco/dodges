@@ -19,7 +19,7 @@ public class Aqua extends Pixie {
     public void ability(){
         if(!longTouched) return;
         if(abilityUsed) return;
-        GameScreen.bullets.add(new BubbleShield(bubble,(int) getX(),(int) getY(),' ',' ',this));
+        GameScreen.bullets.add(new BubbleShield(bubble,1,1,' ',' ',this));
         abilityUsed = true;
     }
 }
