@@ -17,10 +17,11 @@ import enemies.Enemies;
 import huds.MainHUD;
 import items.Fruit;
 import items.Items;
+import pixies.Agni;
 import pixies.Aqua;
 import pixies.Pixies;
+import pixies.Tera;
 import utils.MyGestures;
-import utils.OrthographicCameraWithVirtualViewport;
 import utils.TimeManager;
 
 
@@ -41,8 +42,6 @@ public class GameScreen implements Screen {
     //TEST
 
     public Background bg;
-    //public Viewport viewport;
-    public OrthographicCameraWithVirtualViewport camTest;
 
 
     //HUD OBJECTS
@@ -61,9 +60,10 @@ public class GameScreen implements Screen {
 
 
         pixies = new Pixies();
+        //pos x, pos y, HP, ATK, SPD
         pixies.add(new Aqua(0,-250,30,2,30));
-        //pixies.add(new Agni(150,-250,30,2,30));
-        //pixies.add(new Tera(-150,-250,30,2,30));
+        pixies.add(new Agni(150,-250,30,2,30));
+        pixies.add(new Tera(-150,-250,30,2,30));
         enemies = new Enemies();
         //pos x, pos y, move to, HP, ATK, TIME
         int test = MainGame.HEIGHT/2;
@@ -91,13 +91,12 @@ public class GameScreen implements Screen {
         enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,100,5,70));
         bullets = new Bullets();
         items = new Items();
-        items.add(new Fruit(new Texture(Gdx.files.internal("items/orangefruit.png")),"select"));
-        items.add(new Fruit(new Texture(Gdx.files.internal("items/mirror.png")),"auto"));
-        items.add(new Fruit(new Texture(Gdx.files.internal("items/star.png")),"auto"));
+        items.add(new Fruit(new Texture(Gdx.files.internal("items/orangefruit.png"))));
+        items.add(new Fruit(new Texture(Gdx.files.internal("items/tuna.png"))));
+        items.add(new Fruit(new Texture(Gdx.files.internal("items/grapes.png"))));
 
 
         bg = new Background(new Texture(Gdx.files.internal("backgrounds/bg4.png")));
-        //viewport = new FitViewport(MainGame.WIDTH,MainGame.HEIGHT,cam);
         time = new TimeManager();
 
 
@@ -109,7 +108,7 @@ public class GameScreen implements Screen {
 
     public void update(){
 
-        //Gdx.app.log("TIEMPO",""+time.getTime());
+
 
         bg.update();
         pixies.update();
@@ -119,12 +118,15 @@ public class GameScreen implements Screen {
 
     }
     public void input(){
-
-        if(MyGestures.isTouchDown()){
+        if(MyGestures.isLongPress()){
+            vec.set(MyGestures.firstTouch);
+            cam.unproject(vec);
+            pixies.long_input(vec);
+        }
+        else if(MyGestures.isTouchDown()){
             vec.set(MyGestures.firstTouch);
             //ITEMS
             if(vec.y >= 5*MainGame.HEIGHT/6){
-
                 items.input(vec);
                 return;
             }

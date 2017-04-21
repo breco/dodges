@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import bullets.EnemyBullet;
 import screens.GameScreen;
 
@@ -57,7 +59,7 @@ public class Bigbat extends Enemy {
         if(STOP_SHOOT) return;
         SHOT_CONT--;
         if(SHOT_CONT == 0){
-            SHOT_CONT = 10;//ThreadLocalRandom.current().nextInt(1,11);
+            SHOT_CONT = ThreadLocalRandom.current().nextInt(10,21);
             float x = getX()+ getWidth();
             float y = getY();
             GameScreen.bullets.add(new EnemyBullet(new Texture(Gdx.files.internal("bullets/normal_bullet.png")),(int)x,(int)y,' ','D',ATK,6));

@@ -20,6 +20,7 @@ public class EnemyBullet extends Bullet {
     }
     public void attack(){
         for(Pixie pixie : GameScreen.pixies.getPixies()){
+            if(pixie.status.equals("dead")) continue;
             if(pixie.getBoundingRectangle().contains(getBoundingRectangle())){
                 pixie.damage(ATK);
                 GameScreen.bullets.remove(this);

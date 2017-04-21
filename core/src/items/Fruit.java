@@ -15,8 +15,8 @@ import screens.GameScreen;
 public class Fruit extends Item {
     private int amount;
     public Vector3 vec;
-    public Fruit(Texture texture,String type){
-        super(texture,type);
+    public Fruit(Texture texture){
+        super(texture,"select");
         amount = 10;
         vec = new Vector3();
     }
@@ -33,6 +33,7 @@ public class Fruit extends Item {
         rect.setPosition(vec.x,vec.y);
         Gdx.app.log("fruit_rect",""+rect);
         for(Pixie pixie: GameScreen.pixies.getPixies()){
+            if(pixie.status.equals("dead")) continue;
             Gdx.app.log("pixie_rect",""+pixie.getBoundingRectangle());
             Rectangle inter = new Rectangle();
             Intersector.intersectRectangles(pixie.getBoundingRectangle(), rect, inter);
@@ -41,9 +42,7 @@ public class Fruit extends Item {
                 pixie.heal(amount);
                 Gdx.app.log("HEAL","HEAL");
                 used = true;
-            }
-            else{
-                Gdx.app.log("FAIL","NOIPE");
+                break;
             }
 
         }

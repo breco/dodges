@@ -39,6 +39,36 @@ public class Pixies {
         //
         pixies.add(pixie);
     }
+    public void long_input(Vector3 vec){
+        for(Pixie pixie: pixies){
+            pixie.long_input(vec);
+        }
+        for(Pixie pixie: pixies){
+            if(!pixie.longTouched) continue;
+            x = pixie.getX()+pixie.getWidth()/2;
+            y = pixie.getY()+pixie.getHeight()/2;
+            Gdx.app.log("dist", "" + vec.dst(x, y, 0));
+            if (vec.dst(x,y,0)< dist){
+                dist = vec.dst(x,y,0);
+                temp = pixie;
+            }
+        }
+        for(Pixie pixie: pixies){
+            if(pixie.equals(temp)){
+                pixie.longTouched = true;
+            }
+            else {
+                pixie.longTouched = false;
+            }
+        }
+        for(Pixie pixie: pixies){
+            if(!pixie.longTouched) pixie.canBeLongTouched = false;
+        }
+        temp = null;
+        x = 0;
+        y = 0;
+        dist = 10000;
+    }
     public void input(Vector3 vec){
         //get touched pixies
         for(Pixie pixie: pixies){
@@ -79,6 +109,8 @@ public class Pixies {
         for(Pixie pixie: pixies){
             pixie.touched = false;
             pixie.canBeTouched = true;
+            pixie.longTouched = false;
+            pixie.canBeLongTouched = true;
         }
     }
 }
