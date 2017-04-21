@@ -1,6 +1,7 @@
 package bullets;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import enemies.Enemy;
@@ -12,22 +13,22 @@ import screens.GameScreen;
 public class AgniBullet extends PixieBullet {
     private Array<Enemy> enemiesSelected;
     private int SPD_X,SPD_Y;
+    private Rectangle rect;
     public AgniBullet(Texture texture, int x, int y, char oriX, char oriY) {
         //// atk = 5;speed = 3
-        super(texture, x, y, oriX, oriY, 100, 20);
+        super(texture, x, y, oriX, oriY, 50, 20);
         enemiesSelected = new Array<Enemy>();
         SPD_X = 5;
         SPD_Y = 20;
     }
 
     public void attack(){
-
+        rect = getBoundingRectangle();
         for(Enemy enemy : GameScreen.enemies.getEnemies()){
-            if(getBoundingRectangle().overlaps(enemy.getBoundingRectangle())){
-
+            if(enemiesSelected.contains(enemy,false)) continue;
+            if(rect.overlaps(enemy.getBoundingRectangle())){
+                enemiesSelected.add(enemy);
                 enemy.getDamage(ATK);
-                GameScreen.bullets.remove(this);
-                return;
             }
         }
 

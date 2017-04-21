@@ -79,7 +79,6 @@ public class Pixie extends Sprite {
         SPD_CONT++;
         if(SPD_CONT < SPD) return;
         SPD_CONT = 0;
-        //GameScreen.bullets.add(new AgniBullet(new Texture(Gdx.files.internal("effects/fireball.png")), (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U'));
         GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK, BULLET_SPD));
     }
     public void update(){
@@ -93,9 +92,14 @@ public class Pixie extends Sprite {
     }
     public void draw(SpriteBatch batch) {
         if(status.equals("dead")) return;
+        //batch.draw(gray,getX()-getWidth(),getY()+getHeight()*2.1f,120,10);
+        //batch.draw(curr, getX() - getWidth(), getY() + getHeight() * 2.1f, PERCENT_HP * 120 / 100, 10);
+        super.draw(batch);
+    }
+    public void drawHUD(SpriteBatch batch){
+        if(status.equals("dead")) return;
         batch.draw(gray,getX()-getWidth(),getY()+getHeight()*2.1f,120,10);
         batch.draw(curr, getX() - getWidth(), getY() + getHeight() * 2.1f, PERCENT_HP * 120 / 100, 10);
-        super.draw(batch);
     }
     public void long_input(Vector3 vec){
         if(!canBeLongTouched) return;
@@ -115,7 +119,6 @@ public class Pixie extends Sprite {
 
     }
     public void heal(int amount){
-        Gdx.app.log("HEAL","HEAL");
         if(status.equals("dead")) return;
         CURRENT_HP+= amount;
         if(CURRENT_HP > HP){

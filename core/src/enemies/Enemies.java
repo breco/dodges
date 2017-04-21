@@ -1,6 +1,5 @@
 package enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
@@ -32,7 +31,6 @@ public class Enemies {
         }
     }
     public void remove(Enemy enemy){
-        Gdx.app.log("REMOVE","DELETE DIS");
         onScreenEnemies.removeValue(enemy, false);
         deadEnemies.add(enemy);
     }

@@ -40,7 +40,7 @@ public class Bigbat extends Enemy {
             if(SPD_CONT >= MAX_SPD){
                 ori = 'R';
                 SPD_CONT = 0;
-                STOP_SHOOT = true;
+                //STOP_SHOOT = true;
             }
         }
         else if(ori == 'R'){
@@ -59,7 +59,8 @@ public class Bigbat extends Enemy {
         if(STOP_SHOOT) return;
         SHOT_CONT--;
         if(SHOT_CONT == 0){
-            SHOT_CONT = ThreadLocalRandom.current().nextInt(10,21);
+
+            SHOT_CONT = ThreadLocalRandom.current().nextInt(30,41);
             float x = getX()+ getWidth();
             float y = getY();
             GameScreen.bullets.add(new EnemyBullet(new Texture(Gdx.files.internal("bullets/normal_bullet.png")),(int)x,(int)y,' ','D',ATK,6));

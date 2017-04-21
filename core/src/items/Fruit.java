@@ -1,6 +1,5 @@
 package items;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -31,16 +30,13 @@ public class Fruit extends Item {
         GameScreen.cam.unproject(vec);
         vec.set(vec.x, -vec.y, 0);
         rect.setPosition(vec.x,vec.y);
-        Gdx.app.log("fruit_rect",""+rect);
         for(Pixie pixie: GameScreen.pixies.getPixies()){
             if(pixie.status.equals("dead")) continue;
-            Gdx.app.log("pixie_rect",""+pixie.getBoundingRectangle());
             Rectangle inter = new Rectangle();
             Intersector.intersectRectangles(pixie.getBoundingRectangle(), rect, inter);
-            Gdx.app.log("INTER_RECT",""+inter);
             if(!(inter.x == 0 && inter.y == 0 & inter.width == 0 & inter.height == 0)){
                 pixie.heal(amount);
-                Gdx.app.log("HEAL","HEAL");
+
                 used = true;
                 break;
             }

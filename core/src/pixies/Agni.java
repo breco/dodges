@@ -19,10 +19,10 @@ public class Agni extends Pixie {
     public void ability(){
         if(!longTouched) return;
         if(abilityUsed) return;
-        Gdx.app.log("Ability Agni","Go!");
+
         GameScreen.bullets.add(new AgniBullet(fireball, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U'));
         GameScreen.bullets.add(new AgniBullet(fireball,(int) (getX() + getWidth() / 2), (int) (getY() + getHeight()),'L','U'));
         GameScreen.bullets.add(new AgniBullet(fireball,(int) (getX() + getWidth() / 2), (int) (getY() + getHeight()),'R','U'));
-        //abilityUsed = true;
+        abilityUsed = true;
     }
 }

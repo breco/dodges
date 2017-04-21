@@ -17,6 +17,11 @@ public class Pixies {
         dist = 100000;
 
     }
+    public void drawHUD(SpriteBatch batch){
+        for(Pixie pixie: pixies){
+            pixie.drawHUD(batch);
+        }
+    }
     public void draw(SpriteBatch batch){
         for(Pixie pixie : pixies){
             pixie.draw(batch);

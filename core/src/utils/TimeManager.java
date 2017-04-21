@@ -4,7 +4,7 @@ package utils;
  * Created by victor on 4/2/17.
  */
 public class TimeManager {
-    public long startTime;
+    private long startTime;
 
     public TimeManager(){
 

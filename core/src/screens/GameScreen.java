@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),50,test,'L',bat_hp,4,60));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),-50,test,'R',bat_hp,4,60));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,'L',bat_hp,4,65));
-        enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,100,5,70));
+        enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,200,5,70));
         bullets = new Bullets();
         items = new Items();
         items.add(new Fruit(new Texture(Gdx.files.internal("items/orangefruit.png"))));
@@ -155,11 +155,12 @@ public class GameScreen implements Screen {
         enemies.draw(batch);
         pixies.draw(batch);
         bullets.draw(batch);
-
-
+        //HUD that depends on this cam/batch positions
+        pixies.drawHUD(batch);
     }
-    public void drawHUD(SpriteBatch batch){
+    public void drawHUD(SpriteBatch batch) {
         hud.draw(batch);
+
     }
     @Override
     public void show() {
