@@ -19,7 +19,7 @@ public class AgniBullet extends PixieBullet {
         super(texture, x, y, oriX, oriY, 50, 20);
         enemiesSelected = new Array<Enemy>();
         SPD_X = 5;
-        SPD_Y = 20;
+        SPD_Y = 15;
     }
 
     public void attack(){

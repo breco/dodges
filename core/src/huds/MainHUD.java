@@ -70,7 +70,7 @@ public class MainHUD {
             //items.getItems().get(i).draw(batch);
         }
         for(Item item : items.getItems()){
-            if(item.touched) item.draw(batch);
+            if(item.touched || item.touched2) item.draw(batch);
         }
     }
 }

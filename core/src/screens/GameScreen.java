@@ -11,6 +11,7 @@ import com.breco.dodges.MainGame;
 
 import backgrounds.Background;
 import bullets.Bullets;
+import enemies.Bat;
 import enemies.Enemies;
 import huds.MainHUD;
 import items.Fruit;
@@ -68,7 +69,7 @@ public class GameScreen implements Screen {
         //pos x, pos y, move to, HP, ATK, TIME
         int test = MainGame.HEIGHT/2;
         int bat_hp = 14;
-        /*enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),-50,test,'L',bat_hp,4,1));
+        enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),-50,test,'L',bat_hp,4,1));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,'R',bat_hp,4,5));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),50,test,'R',bat_hp,4,10));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,'R',bat_hp,4,11));
@@ -88,7 +89,7 @@ public class GameScreen implements Screen {
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),50,test,'L',bat_hp,4,60));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),-50,test,'R',bat_hp,4,60));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,'L',bat_hp,4,65));
-        enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,200,5,70));*/
+        enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,200,5,70));
         bullets = new Bullets();
         items = new Items();
         items.add(new MagicMirror(new Texture(Gdx.files.internal("items/mirror.png"))));
@@ -121,30 +122,27 @@ public class GameScreen implements Screen {
             cam.unproject(vec);
             pixies.long_input(vec);
         }
-        else if(MyGestures.isTouchDown()){
-            vec.set(MyGestures.firstTouch);
-            //ITEMS
-            if(vec.y >= 5*MainGame.HEIGHT/6){
-                Gdx.app.log("ITEMS","ASD");
+        else{
+            if(MyGestures.isTouchDown()){
                 vec.set(MyGestures.firstTouch);
-
-                items.input(vec);
-                return;
+                if(vec.y >= 5*MainGame.HEIGHT/6){
+                    items.input(vec,0);
+                    return;
+                }
+                cam.unproject(vec);
+                pixies.input(vec,0);
             }
-            //first finger
-            cam.unproject(vec);
-            pixies.input(vec,0);
-
-        //
+            if(MyGestures.isTouchDown2()){
+                vec.set(MyGestures.firstTouch2);
+                if(vec.y >= 5*MainGame.HEIGHT/6){
+                    items.input(vec,1);
+                    return;
+                }
+                cam.unproject(vec);
+                pixies.input(vec,1);
+            }
         }
-        //
-        if(MyGestures.isTouchDown2()){
-            vec.set(MyGestures.firstTouch2);
-            
-            cam.unproject(vec);
-            pixies.input(vec,1);
 
-        }
         if(!MyGestures.isTouchDragged()){
             MyGestures.resetDiff(0);
         }
@@ -154,14 +152,15 @@ public class GameScreen implements Screen {
         }
 
         if(MyGestures.isTouchUp()){
-            Gdx.app.log("TOUCH UP","POINTER 1");
+
             pixies.setUntouched(0);
-            items.touchUp();
-            items.setUntouched();
+            items.touchUp(0);
+            items.setUntouched(0);
         }
         if(MyGestures.isTouchUp2()){
-            Gdx.app.log("TOUCH UP", "POINTER 2");
             pixies.setUntouched(1);
+            items.touchUp(1);
+            items.setUntouched(1);
         }
 
 

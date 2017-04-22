@@ -36,33 +36,68 @@ public class Items {
         items.add(item);
     }
 
-    public void input(Vector3 vec){
+    public void input(Vector3 vec,int pointer){
         vec.set(vec.x, MainGame.HEIGHT - vec.y, 0);
+        if(pointer == 0){
+            for(int i = 0;i<3;i++){
+                if(items.get(i).used) continue;
+                rect.setPosition(MainGame.WIDTH / 10.5f + i * MainGame.WIDTH / 3, MainGame.HEIGHT / 24);
+                if(rect.contains(vec.x,vec.y)){
+                    if(items.get(i).type.equals("auto")){ // Applicable to all pixies
+                        items.get(i).effect();
 
-        for(int i = 0;i<3;i++){
-            if(items.get(i).used) continue;
-            rect.setPosition(MainGame.WIDTH / 10.5f + i * MainGame.WIDTH / 3, MainGame.HEIGHT / 24);
-            if(rect.contains(vec.x,vec.y)){
-                if(items.get(i).type.equals("auto")){ // Applicable to all pixies
-                    items.get(i).effect();
-
-                }
-                if(items.get(i).type.equals("select")){ //Applicable to selected pixie
-                    items.get(i).touched = true;
-                    items.get(i).setInitPosition();
+                    }
+                    if(items.get(i).type.equals("select")){ //Applicable to selected pixie
+                        items.get(i).touched = true;
+                        items.get(i).setInitPosition();
+                    }
                 }
             }
         }
-    }
-    public void touchUp(){
-        for(Item item : items){
-            if(item.touched) item.effect();
+        if(pointer == 1){
+
+            for(int i = 0;i<3;i++){
+                if(items.get(i).used) continue;
+                rect.setPosition(MainGame.WIDTH / 10.5f + i * MainGame.WIDTH / 3, MainGame.HEIGHT / 24);
+                if(rect.contains(vec.x,vec.y)){
+                    if(items.get(i).type.equals("auto")){ // Applicable to all pixies
+                        items.get(i).effect();
+
+                    }
+                    if(items.get(i).type.equals("select")){ //Applicable to selected pixie
+                        items.get(i).touched2 = true;
+                        items.get(i).setInitPosition();
+                    }
+                }
+            }
         }
+
     }
-    public void setUntouched(){
-        for(Item item : items){
-            if(item.touched) item.resetPosition();
-            item.touched = false;
+    public void touchUp(int pointer){
+        if(pointer == 0){
+            for(Item item : items){
+                if(item.touched) item.effect();
+            }
+        }
+        if(pointer == 1){
+            for(Item item : items){
+                if(item.touched2) item.effect();
+            }
+        }
+
+    }
+    public void setUntouched(int pointer){
+        if(pointer == 0){
+            for(Item item : items){
+                if(item.touched) item.resetPosition();
+                item.touched = false;
+            }
+        }
+        if(pointer == 1){
+            for(Item item : items){
+                if(item.touched2) item.resetPosition();
+                item.touched2 = false;
+            }
         }
     }
 }

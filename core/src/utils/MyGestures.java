@@ -48,6 +48,7 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
         delta2 = new Vector3();
         newDelta2 = new Vector3();
         diff2 = new Vector3();
+        gd.setLongPressSeconds(0.5f);
     }
 
     public static void update(){
