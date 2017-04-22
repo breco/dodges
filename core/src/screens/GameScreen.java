@@ -122,29 +122,25 @@ public class GameScreen implements Screen {
             pixies.long_input(vec);
         }
         else if(MyGestures.isTouchDown()){
-
+            vec.set(MyGestures.firstTouch);
             //ITEMS
             if(vec.y >= 5*MainGame.HEIGHT/6){
+                Gdx.app.log("ITEMS","ASD");
                 vec.set(MyGestures.firstTouch);
+
                 items.input(vec);
                 return;
             }
-
-            //Move pixies
-
             //first finger
-            vec.set(MyGestures.firstTouch);
             cam.unproject(vec);
             pixies.input(vec,0);
-
-
-
 
         //
         }
         //
         if(MyGestures.isTouchDown2()){
             vec.set(MyGestures.firstTouch2);
+            
             cam.unproject(vec);
             pixies.input(vec,1);
 
