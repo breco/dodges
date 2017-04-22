@@ -17,12 +17,22 @@ import utils.MyGestures;
  */
 public class Pixie extends Sprite {
 
-    //input variables
+    //INPUT VARIABLES
+    public Rectangle touchRect;
+    public boolean pointerTwoTouched = false;
+    //input variables finger 1
     public boolean touched = false;
     public boolean longTouched = false;
     public boolean canBeTouched = true;
     public boolean canBeLongTouched = true;
-    public Rectangle touchRect;
+
+
+    //input variables finger 2
+    public boolean touched2 = false;
+    public boolean longTouched2 = false;
+    public boolean canBeTouched2 = true;
+    public boolean canBeLongTouched2 = true;
+
 
     //stats
 
@@ -73,14 +83,29 @@ public class Pixie extends Sprite {
 
     }
     public void move(){
-        if(!touched) return;
-        if(MyGestures.newTouch.y >= 5* MainGame.HEIGHT/6-getHeight()){
-            return;
+
+        if(touched){
+            if(MyGestures.newTouch.y >= 5* MainGame.HEIGHT/6-getHeight()){
+                return;
+            }
+            setX(getX() - MyGestures.diff.x);
+            setY(getY() + MyGestures.diff.y);
+            touchRect.setX(touchRect.getX() - MyGestures.diff.x);
+            touchRect.setY(touchRect.getY() + MyGestures.diff.y);
         }
-        setX(getX() - MyGestures.diff.x);
-        setY(getY() + MyGestures.diff.y);
-        touchRect.setX(touchRect.getX() - MyGestures.diff.x);
-        touchRect.setY(touchRect.getY() + MyGestures.diff.y);
+
+
+        if(touched2){
+            if(MyGestures.newTouch2.y >= 5* MainGame.HEIGHT/6-getHeight()){
+                return;
+            }
+            setX(getX() - MyGestures.diff2.x);
+            setY(getY() + MyGestures.diff2.y);
+            touchRect.setX(touchRect.getX() - MyGestures.diff2.x);
+            touchRect.setY(touchRect.getY() + MyGestures.diff2.y);
+        }
+
+
 
     }
     public void shoot(){
@@ -115,13 +140,28 @@ public class Pixie extends Sprite {
         }
         longTouched = false;
     }
-    public void input(Vector3 vec){
-        if(!canBeTouched) return;
-        if (touchRect.contains(vec.x,vec.y)){
-            touched = true;
-            return;
+    public void input(Vector3 vec,int pointer){
+
+        Gdx.app.log("CURR POINTER",""+(pointer+1));
+        if(pointer == 0){
+
+            if(!canBeTouched) return;
+            if (touchRect.contains(vec.x,vec.y)){
+                touched = true;
+                return;
+            }
+            touched = false;
         }
-        touched = false;
+        else if(pointer == 1){
+            pointerTwoTouched = true;
+            if(!canBeTouched2) return;
+            if (touchRect.contains(vec.x,vec.y)){
+                touched2 = true;
+                return;
+            }
+            touched2 = false;
+        }
+
 
     }
     public void heal(int amount){

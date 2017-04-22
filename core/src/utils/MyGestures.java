@@ -1,5 +1,6 @@
 package utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
@@ -21,8 +22,16 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
     public static boolean touchDown = false;
     public static boolean touchDragged = false;
     public static Vector3 touchPos;
+
     public static boolean touchUp;
     public static Vector3 firstTouch, newDelta,newTouch,delta,diff;
+
+    //second input
+    public static boolean touchUp2;
+    public static Vector3 firstTouch2, newDelta2,newTouch2,delta2,diff2;
+    public static boolean touchDragged2 = false;
+    public static boolean touchDown2 = false;
+
 
     public GestureDetector gd;
     public MyGestures(){
@@ -33,6 +42,12 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
         delta = new Vector3();
         newDelta = new Vector3();
         diff = new Vector3();
+        //second input
+        firstTouch2 = new Vector3();
+        newTouch2 = new Vector3();
+        delta2 = new Vector3();
+        newDelta2 = new Vector3();
+        diff2 = new Vector3();
     }
 
     public static void update(){
@@ -43,6 +58,10 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
         touchDown = false;
         touchDragged = false;
         touchUp = false;
+        //
+        touchUp2 = false;
+        touchDragged2 = false;
+        touchDown2 = false;
     }
 
     //TAP
@@ -63,9 +82,7 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
     // PAN
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        //message = "Pan performed, delta:" + Float.toString(deltaX) +
-        //        "," + Float.toString(deltaY);
-        //System.out.println(message);
+
         pan = true;
         panX = deltaX;
         panY = deltaY;
@@ -85,7 +102,7 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
                 " Distance: " + Float.toString(distance);
         zoom = true;
         zoomInit = initialDistance;
-        System.out.println(Math.abs(distance - zoomFin));
+
         if(Math.abs(distance - zoomFin) <= 5){
             zoomMoving = false;
         }
@@ -116,7 +133,12 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        touchDown = true;
+        if(pointer == 0){
+            touchDown = true;
+        }
+        if(pointer == 1){
+            touchDown2 = true;
+        }
 
         return true;
     }
@@ -124,6 +146,9 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
         return touchDown;
     }
 
+    public static boolean isTouchDown2(){
+        return touchDown2;
+    }
 
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
@@ -167,33 +192,60 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        firstTouch.set(screenX, screenY, 0);
-        delta.set(0, 0, 0);
+        if(pointer == 0){
+            Gdx.app.log("TOUCH DOWN","POINTER 1");
+            firstTouch.set(screenX, screenY, 0);
+            delta.set(0, 0, 0);
+        }
+        else if(pointer == 1){
+            Gdx.app.log("TOUCH DOWN","POINTER 2");
+            firstTouch2.set(screenX, screenY, 0);
+            delta2.set(0, 0, 0);
+        }
 
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        touchUp = true;
+        if(pointer == 0){
+            touchUp = true;
+        }
+        else if(pointer == 1){
+            touchUp2 = true;
+        }
         return false;
     }
 
     public static boolean isTouchUp(){
         return touchUp;
     }
+    public static boolean isTouchUp2(){
+        return touchUp2;
+    }
 
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
 
-        touchDragged = true;
-        newTouch.set(screenX, screenY, 0);
-        newDelta = newTouch.cpy().sub(firstTouch);
-        //Gdx.app.log("newDelta", newDelta.toString());
-        diff = delta.cpy().sub(newDelta);
-        //Gdx.app.log("diff",diff.toString());
-        delta = newDelta;
+        if(pointer == 0){
+            touchDragged = true;
+            newTouch.set(screenX, screenY, 0);
+            newDelta = newTouch.cpy().sub(firstTouch);
+            //Gdx.app.log("newDelta", newDelta.toString());
+            diff = delta.cpy().sub(newDelta);
+            //Gdx.app.log("diff",diff.toString());
+            delta = newDelta;
+            //Gdx.app.log("POINTER 1","diff:"+diff);
+        }
+        else if(pointer == 1){
+            touchDragged2 = true;
+            newTouch2.set(screenX, screenY, 0);
+            newDelta2 = newTouch2.cpy().sub(firstTouch2);
+            diff2 = delta2.cpy().sub(newDelta2);
+            delta2 = newDelta2;
+            //Gdx.app.log("POINTER 2","diff2: "+diff2);
+        }
 
 
 
@@ -201,6 +253,9 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
     }
     public static boolean isTouchDragged(){
         return touchDragged;
+    }
+    public static boolean isTouchDragged2(){
+        return touchDragged2;
     }
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
@@ -211,7 +266,13 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
     public boolean scrolled(int amount) {
         return false;
     }
-    public static void resetDiff(){
-        diff.set(0,0,0);
+    public static void resetDiff(int pointer){
+        if(pointer == 0){
+            diff.set(0, 0, 0);
+        }
+        else if(pointer == 1){
+            diff2.set(0, 0, 0);
+        }
+
     }
 }

@@ -1,6 +1,5 @@
 package pixies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -52,7 +51,7 @@ public class Pixies {
             if(!pixie.longTouched) continue;
             x = pixie.getX()+pixie.getWidth()/2;
             y = pixie.getY()+pixie.getHeight()/2;
-            Gdx.app.log("dist", "" + vec.dst(x, y, 0));
+
             if (vec.dst(x,y,0)< dist){
                 dist = vec.dst(x,y,0);
                 temp = pixie;
@@ -74,48 +73,90 @@ public class Pixies {
         y = 0;
         dist = 10000;
     }
-    public void input(Vector3 vec){
+    public void input(Vector3 vec,int pointer){
         //get touched pixies
         for(Pixie pixie: pixies){
-            pixie.input(vec);
+            pixie.input(vec,pointer);
 
         }
-        //get nearest pixie from touch position
-        for(Pixie pixie: pixies){
-            if(!pixie.touched) continue;
-            x = pixie.getX()+pixie.getWidth()/2;
-            y = pixie.getY()+pixie.getHeight()/2;
-            Gdx.app.log("dist",""+vec.dst(x,y,0));
-            if (vec.dst(x,y,0)< dist){
-                dist = vec.dst(x,y,0);
-                temp = pixie;
+        if(pointer == 0){
+            //get nearest pixie from touch position
+            for(Pixie pixie: pixies){
+                if(!pixie.touched) continue;
+                x = pixie.getX()+pixie.getWidth()/2;
+                y = pixie.getY()+pixie.getHeight()/2;
+
+                if (vec.dst(x,y,0)< dist){
+                    dist = vec.dst(x,y,0);
+                    temp = pixie;
+                }
+            }
+            //mark only the nearest pixie
+            for(Pixie pixie: pixies){
+                if(pixie.equals(temp)){
+                    pixie.touched = true;
+                }
+                else {
+                    pixie.touched = false;
+                }
+            }
+            //make other pixies untouchable
+            for(Pixie pixie: pixies){
+                if(!pixie.touched) pixie.canBeTouched = false;
             }
         }
-        //mark only the nearest pixie
-        for(Pixie pixie: pixies){
-            if(pixie.equals(temp)){
-                pixie.touched = true;
+        else if(pointer == 1){
+            //get nearest pixie from touch position
+            for(Pixie pixie: pixies){
+                if(!pixie.touched2) continue;
+                x = pixie.getX()+pixie.getWidth()/2;
+                y = pixie.getY()+pixie.getHeight()/2;
+                //Gdx.app.log("dist",""+vec.dst(x,y,0));
+                if (vec.dst(x,y,0)< dist){
+                    dist = vec.dst(x,y,0);
+                    temp = pixie;
+                }
             }
-            else {
-                pixie.touched = false;
+            //mark only the nearest pixie
+            for(Pixie pixie: pixies){
+                if(pixie.equals(temp)){
+                    pixie.touched2 = true;
+                }
+                else {
+                    pixie.touched2 = false;
+                }
+            }
+            //make other pixies untouchable
+            for(Pixie pixie: pixies){
+                if(!pixie.touched2) pixie.canBeTouched2 = false;
             }
         }
-        //make other pixies untouchable
-        for(Pixie pixie: pixies){
-            if(!pixie.touched) pixie.canBeTouched = false;
-        }
+
         temp = null;
         x = 0;
         y = 0;
         dist = 10000;
 
     }
-    public void setUntouched(){
-        for(Pixie pixie: pixies){
-            pixie.touched = false;
-            pixie.canBeTouched = true;
-            pixie.longTouched = false;
-            pixie.canBeLongTouched = true;
+    public void setUntouched(int pointer){
+        if(pointer == 0){
+
+            for(Pixie pixie: pixies){
+                pixie.touched = false;
+                pixie.canBeTouched = true;
+                pixie.longTouched = false;
+                pixie.canBeLongTouched = true;
+            }
         }
+        else if(pointer == 1){
+
+            for(Pixie pixie: pixies){
+                pixie.touched2 = false;
+                pixie.canBeTouched2 = true;
+                pixie.longTouched2 = false;
+                pixie.canBeLongTouched2 = true;
+            }
+        }
+
     }
 }
