@@ -26,10 +26,13 @@ public class Pixie extends Sprite {
 
     //stats
 
-    public int HP,SPD;
+    public int HP;
+    public int CURRENT_HP;
     //attack
     private int ATK_FIXED, ATK_VARIABLE = 0,ATK_TOTAL;
-    public int CURRENT_HP;
+    //speed
+    private int SPD_FIXED,SPD_TOTAL,SPD_VARIABLE =0;
+
     public String status;
     public int BULLET_SPD = 20;
 
@@ -59,7 +62,8 @@ public class Pixie extends Sprite {
         CURRENT_HP = HP;
         ATK_FIXED = ATK;
         ATK_TOTAL = ATK_FIXED + ATK_VARIABLE;
-        this.SPD = SPD;
+        SPD_FIXED = SPD;
+        SPD_TOTAL = SPD_FIXED + SPD_VARIABLE;
         PERCENT_HP = 100;
         COLOR_HP = 'G';
         status = "normal";
@@ -81,7 +85,7 @@ public class Pixie extends Sprite {
     }
     public void shoot(){
         SPD_CONT++;
-        if(SPD_CONT < SPD) return;
+        if(SPD_CONT < SPD_TOTAL) return;
         SPD_CONT = 0;
         GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
     }
@@ -165,5 +169,10 @@ public class Pixie extends Sprite {
         ATK_VARIABLE += amount;
         ATK_TOTAL = ATK_FIXED + ATK_VARIABLE;
         if(ATK_TOTAL < 0) ATK_TOTAL = 0;
+    }
+    public void changeSPD(int amount){
+        SPD_VARIABLE += amount;
+        SPD_TOTAL = SPD_FIXED + SPD_VARIABLE;
+        Gdx.app.log("ChangeSPD",""+SPD_TOTAL);
     }
 }

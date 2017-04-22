@@ -43,12 +43,11 @@ public class Items {
             if(items.get(i).used) continue;
             rect.setPosition(MainGame.WIDTH / 10.5f + i * MainGame.WIDTH / 3, MainGame.HEIGHT / 24);
             if(rect.contains(vec.x,vec.y)){
-
-                if(items.get(i).type.equals("auto")){
-                    //
+                if(items.get(i).type.equals("auto")){ // Applicable to all pixies
                     items.get(i).effect();
+
                 }
-                if(items.get(i).type.equals("select")){
+                if(items.get(i).type.equals("select")){ //Applicable to selected pixie
                     items.get(i).touched = true;
                     items.get(i).setInitPosition();
                 }

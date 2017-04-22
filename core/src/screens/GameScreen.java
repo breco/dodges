@@ -17,6 +17,8 @@ import enemies.Enemies;
 import huds.MainHUD;
 import items.Fruit;
 import items.Items;
+import items.MagicMirror;
+import items.SpeedStar;
 import pixies.Agni;
 import pixies.Aqua;
 import pixies.Pixies;
@@ -91,8 +93,8 @@ public class GameScreen implements Screen {
         enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,200,5,70));
         bullets = new Bullets();
         items = new Items();
-        items.add(new Fruit(new Texture(Gdx.files.internal("items/orangefruit.png"))));
-        items.add(new Fruit(new Texture(Gdx.files.internal("items/tuna.png"))));
+        items.add(new MagicMirror(new Texture(Gdx.files.internal("items/mirror.png"))));
+        items.add(new SpeedStar(new Texture(Gdx.files.internal("items/star.png"))));
         items.add(new Fruit(new Texture(Gdx.files.internal("items/grapes.png"))));
 
 
@@ -107,8 +109,6 @@ public class GameScreen implements Screen {
     }
 
     public void update(){
-
-
 
         bg.update();
         pixies.update();

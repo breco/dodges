@@ -30,10 +30,8 @@ public abstract class Item extends Sprite {
 
     public void move(){
         if(!touched){
-
             return;
         }
-
         setX(getX() - MyGestures.diff.x);
         setY(getY() + MyGestures.diff.y);
 
@@ -48,7 +46,6 @@ public abstract class Item extends Sprite {
         setPosition(vec.x,vec.y);
     }
     public void setInitPosition(){
-
         vec.set(getX(),getY(),0);
     }
 }
