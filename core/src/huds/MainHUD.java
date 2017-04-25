@@ -3,12 +3,14 @@ package huds;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.breco.dodges.MainGame;
 
+import buttons.My_Button;
 import items.Item;
 import items.Items;
-import pixies.Pixie;
 import pixies.Pixies;
+import screens.GameScreen;
 
 /**
  * Created by victor on 3/25/17.
@@ -16,16 +18,16 @@ import pixies.Pixies;
 public class MainHUD {
     Pixies pixies;
     Items items;
-    private int cont;
-    private Texture green,red,yellow,gray,curr;
+    GameScreen game;
+
     private Texture cross,black,itemSlot;
-    public MainHUD(Pixies pixies,Items items){
-        this.pixies = pixies;
-        this.items = items;
-        green = new Texture(Gdx.files.internal("huds/green.png"));
-        red = new Texture(Gdx.files.internal("huds/red.png"));
-        yellow = new Texture(Gdx.files.internal("huds/yellow.png"));
-        gray = new Texture(Gdx.files.internal("huds/gray.png"));
+    private My_Button pauseButton;
+    public MainHUD(GameScreen game){
+        this.game = game;
+        this.pixies = game.pixies;
+        this.items = game.items;
+
+
         cross = new Texture(Gdx.files.internal("huds/cross.png"));
         black = new Texture(Gdx.files.internal("huds/black.png"));
         itemSlot = new Texture(Gdx.files.internal("huds/item_slot.png"));
@@ -34,32 +36,17 @@ public class MainHUD {
             item.setPosition(MainGame.WIDTH/10.5f+i*MainGame.WIDTH/3,MainGame.HEIGHT/24);
             i++;
         }
+        pauseButton = new My_Button(new Texture(Gdx.files.internal("buttons/pause_button.png")));
+        pauseButton.scale(0.6f);
+        pauseButton.setPosition(MainGame.WIDTH-pauseButton.getWidth()*1.1f,MainGame.HEIGHT-pauseButton.getHeight()*1.1f);
     }
     public void update(){
 
     }
     public void draw(SpriteBatch batch){
 
-        cont = 0;
-        //draw status bars
-        for(Pixie pixie: pixies.getPixies()){
-            //batch.draw(pixie.getTexture(), 10 + cont * MainGame.WIDTH / 3, MainGame.HEIGHT - 70, 64, 64);
-            //if(pixie.status.equals("dead")) batch.draw(cross,10+cont*MainGame.WIDTH/3,MainGame.HEIGHT-70,64,64);
-            if(pixie.COLOR_HP == 'G'){
-                curr = green;
-            }
-            else if(pixie.COLOR_HP == 'Y'){
-                curr = yellow;
-            }
-            else if(pixie.COLOR_HP == 'R'){
-                curr = red;
-            }
-            //batch.draw(gray,10+cont*MainGame.WIDTH/3+pixie.getTexture().getWidth()*2+10, MainGame.HEIGHT-50,140,10);
-            //batch.draw(curr,10+cont*MainGame.WIDTH/3+pixie.getTexture().getWidth()*2+10, MainGame.HEIGHT-50,pixie.PERCENT_HP*140/100,10);
 
 
-            cont++;
-        }
         //draw item section
         batch.draw(black,0,0,MainGame.WIDTH,MainGame.HEIGHT/6);
 
@@ -72,5 +59,13 @@ public class MainHUD {
         for(Item item : items.getItems()){
             if(item.touched || item.touched2) item.draw(batch);
         }
+        pauseButton.draw(batch);
+    }
+    public void input(Vector3 vec){
+        vec.set(vec.x, MainGame.HEIGHT - vec.y, 0);
+        if(pauseButton.getBoundingRectangle().contains(vec.x,vec.y)){
+            game.pause();
+        }
+
     }
 }

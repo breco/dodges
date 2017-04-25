@@ -1,6 +1,5 @@
 package utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
@@ -48,7 +47,7 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
         delta2 = new Vector3();
         newDelta2 = new Vector3();
         diff2 = new Vector3();
-        gd.setLongPressSeconds(0.5f);
+        gd.setLongPressSeconds(0.8f);
     }
 
     public static void update(){
@@ -194,12 +193,12 @@ public class MyGestures implements GestureDetector.GestureListener, InputProcess
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if(pointer == 0){
-            Gdx.app.log("TOUCH DOWN","POINTER 1");
+            //app.log("TOUCH DOWN","POINTER 1");
             firstTouch.set(screenX, screenY, 0);
             delta.set(0, 0, 0);
         }
         else if(pointer == 1){
-            Gdx.app.log("TOUCH DOWN","POINTER 2");
+            //Gdx.app.log("TOUCH DOWN","POINTER 2");
             firstTouch2.set(screenX, screenY, 0);
             delta2.set(0, 0, 0);
         }

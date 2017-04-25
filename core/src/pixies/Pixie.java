@@ -22,6 +22,7 @@ public class Pixie extends Sprite {
     public boolean pointerTwoTouched = false;
     //input variables finger 1
     public boolean touched = false;
+    public int touchDraw = 0;
     public boolean longTouched = false;
     public boolean canBeTouched = true;
     public boolean canBeLongTouched = true;
@@ -43,7 +44,10 @@ public class Pixie extends Sprite {
     //speed
     private int SPD_FIXED,SPD_TOTAL,SPD_VARIABLE =0;
 
+    //STATUS
     public String status;
+
+    //BULLET STATS
     public int BULLET_SPD = 20;
 
 
@@ -125,6 +129,7 @@ public class Pixie extends Sprite {
     }
     public void draw(SpriteBatch batch) {
         if(status.equals("dead")) return;
+
         super.draw(batch);
     }
     public void drawHUD(SpriteBatch batch){
@@ -142,24 +147,28 @@ public class Pixie extends Sprite {
     }
     public void input(Vector3 vec,int pointer){
 
-        Gdx.app.log("CURR POINTER",""+(pointer+1));
+        //Gdx.app.log("CURR POINTER",""+(pointer+1));
         if(pointer == 0){
 
             if(!canBeTouched) return;
             if (touchRect.contains(vec.x,vec.y)){
                 touched = true;
+                touchDraw++;
                 return;
             }
             touched = false;
+            touchDraw--;
         }
         else if(pointer == 1){
             pointerTwoTouched = true;
             if(!canBeTouched2) return;
             if (touchRect.contains(vec.x,vec.y)){
                 touched2 = true;
+                touchDraw++;
                 return;
             }
             touched2 = false;
+            touchDraw--;
         }
 
 
@@ -205,6 +214,11 @@ public class Pixie extends Sprite {
             COLOR_HP = 'R';
         }
     }
+
+    public int compareTo(Pixie o) {
+        return touchDraw - o.touchDraw;
+    }
+    //STAT CHANGE METHODS
     public void changeATK(int amount){
         ATK_VARIABLE += amount;
         ATK_TOTAL = ATK_FIXED + ATK_VARIABLE;
@@ -215,4 +229,5 @@ public class Pixie extends Sprite {
         SPD_TOTAL = SPD_FIXED + SPD_VARIABLE;
         Gdx.app.log("ChangeSPD",""+SPD_TOTAL);
     }
+
 }

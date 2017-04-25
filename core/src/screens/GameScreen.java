@@ -12,8 +12,10 @@ import com.breco.dodges.MainGame;
 import backgrounds.Background;
 import bullets.Bullets;
 import enemies.Bat;
+import enemies.Bigbat;
 import enemies.Enemies;
 import huds.MainHUD;
+import huds.PauseHUD;
 import items.Fruit;
 import items.Items;
 import items.MagicMirror;
@@ -27,6 +29,16 @@ import utils.TimeManager;
 
 
 public class GameScreen implements Screen {
+    //GAME STATES
+    public enum State{
+        PAUSE,
+        RUN,
+        RESUME,
+        STOPPED
+    }
+    private State state = State.RUN;
+
+    //INPUT AND CAMERA
     private MainGame game;
     public static OrthographicCamera cam;
     public Vector3 vec;
@@ -40,15 +52,15 @@ public class GameScreen implements Screen {
     //HELPERS/UTILS
 
     public static TimeManager time;
-    //TEST
 
+
+    //TEST
     public Background bg;
 
 
     //HUD OBJECTS
-
     MainHUD hud;
-
+    PauseHUD pausehud;
     public GameScreen(MainGame game){
 
         this.game = game;
@@ -103,7 +115,8 @@ public class GameScreen implements Screen {
 
 
 
-        hud = new MainHUD(pixies,items);
+        hud = new MainHUD(this);
+        pausehud = new PauseHUD(this);
         time.start();
     }
 
@@ -129,8 +142,14 @@ public class GameScreen implements Screen {
                     items.input(vec,0);
                     return;
                 }
+
                 cam.unproject(vec);
-                pixies.input(vec,0);
+                pixies.input(vec, 0);
+                //HUD INPUT
+                vec.set(MyGestures.firstTouch);
+
+                hud.input(vec);
+
             }
             if(MyGestures.isTouchDown2()){
                 vec.set(MyGestures.firstTouch2);
@@ -140,6 +159,8 @@ public class GameScreen implements Screen {
                 }
                 cam.unproject(vec);
                 pixies.input(vec,1);
+                //HUD INPUT
+                vec.set(MyGestures.firstTouch);
             }
         }
 
@@ -165,7 +186,10 @@ public class GameScreen implements Screen {
 
 
     }
-
+    public void pauseInput(){
+        vec.set(MyGestures.firstTouch);
+        pausehud.input(vec);
+    }
     public void draw(SpriteBatch batch){
 
 
@@ -178,6 +202,8 @@ public class GameScreen implements Screen {
     }
     public void drawHUD(SpriteBatch batch) {
         hud.draw(batch);
+        if(state == State.PAUSE)
+            pausehud.draw(batch);
 
     }
     @Override
@@ -187,20 +213,29 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //System.out.println(Gdx.graphics.getFramesPerSecond());
+        //Gdx.app.log("FPS",""+Gdx.graphics.getFramesPerSecond());
+
         // 1)Clear the screen
         Gdx.gl.glClearColor(255, 255, 255, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        switch(state){
+            case RUN:
+                // 2)Input handling
+                input();
+                // 3)Update system
+                // 3.1)---> Update Cam
+                cam.update();
+                game.batch.setProjectionMatrix(cam.combined);
+                // 3.2)---> Update Game
+                update();
+                break;
+            case PAUSE:
+                pauseInput();
+                break;
+            case RESUME:
+                break;
 
-        // 2)Input handling
-        input();
-
-        // 3)Update system
-
-        // 3.1)---> Update Cam
-        cam.update();
-        game.batch.setProjectionMatrix(cam.combined);
-
+        }
         // 4)Draw
         game.batch.begin();
         draw(game.batch);
@@ -209,26 +244,24 @@ public class GameScreen implements Screen {
         drawHUD(game.hudBatch);
         game.hudBatch.end();
 
-
-        // 3.2)---> Update Game
-
-        update();
     }
 
     @Override
     public void resize(int width, int height) {
-        //viewport.update(width,height);
+
 
     }
 
     @Override
     public void pause() {
-
+        state = State.PAUSE;
+        time.pause();
     }
 
     @Override
     public void resume() {
-
+        state = State.RUN;
+        time.unpause();
     }
 
     @Override

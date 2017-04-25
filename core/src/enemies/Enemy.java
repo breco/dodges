@@ -1,6 +1,5 @@
 package enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,7 +23,7 @@ public abstract class Enemy extends Sprite {
         this.ATK = ATK;
         CURRENT_HP = HP;
         this.appearance = appearance;
-        Gdx.app.log("APP",""+appearance);
+
     }
     public abstract void update();
     public abstract void move();
@@ -41,6 +40,6 @@ public abstract class Enemy extends Sprite {
             CURRENT_HP = 0;
             GameScreen.enemies.remove(this);
         }
-        //Gdx.app.log("DAMAGE",""+CURRENT_HP);
+
     }
 }
