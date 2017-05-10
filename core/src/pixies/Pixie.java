@@ -96,6 +96,7 @@ public class Pixie extends Sprite {
             setY(getY() + MyGestures.diff.y);
             touchRect.setX(touchRect.getX() - MyGestures.diff.x);
             touchRect.setY(touchRect.getY() + MyGestures.diff.y);
+            return;
         }
 
 

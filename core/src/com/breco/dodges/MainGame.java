@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import screens.GameScreen;
+import screens.WorldScreen;
 import utils.MyGestures;
 
 
@@ -27,8 +27,9 @@ public class MainGame extends Game {
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
 		ASPECT_RATIO = (float)WIDTH/(float)HEIGHT;
-		Gdx.app.log("SIZE","WIDTH:" + WIDTH + "HEIGHT: " + HEIGHT);
-		this.setScreen(new GameScreen(this));
+		Gdx.app.log("SIZE", "WIDTH:" + WIDTH + "HEIGHT: " + HEIGHT);
+		//this.setScreen(new GameScreen(this));
+		this.setScreen(new WorldScreen(this));
 
 	}
 
