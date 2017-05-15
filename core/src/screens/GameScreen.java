@@ -7,13 +7,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Json;
 import com.breco.dodges.MainGame;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import backgrounds.Background;
 import bullets.Bullets;
-import enemies.Bat;
-import enemies.Bigbat;
 import enemies.Enemies;
+import enemies.Enemy;
 import huds.MainHUD;
 import huds.PauseHUD;
 import items.Fruit;
@@ -61,6 +65,11 @@ public class GameScreen implements Screen {
     //HUD OBJECTS
     MainHUD hud;
     PauseHUD pausehud;
+
+
+
+
+
     public GameScreen(MainGame game){
 
         this.game = game;
@@ -78,8 +87,21 @@ public class GameScreen implements Screen {
         pixies.add(new Agni(150,-250,30,2,30));
         pixies.add(new Tera(-150,-250,30,2,30));
         enemies = new Enemies();
+        try {
+            loadLevel();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         //pos x, pos y, move to, HP, ATK, TIME
-        int test = MainGame.HEIGHT/2;
+        /*int test = MainGame.HEIGHT/2;
         int bat_hp = 14;
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),-50,test,'L',bat_hp,4,1));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,'R',bat_hp,4,5));
@@ -101,7 +123,7 @@ public class GameScreen implements Screen {
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),50,test,'L',bat_hp,4,60));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),-50,test,'R',bat_hp,4,60));
         enemies.add(new Bat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,'L',bat_hp,4,65));
-        enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,200,5,70));
+        enemies.add(new Bigbat(new Texture(Gdx.files.internal("enemies/bat.png")),0,test,200,5,70));*/
         bullets = new Bullets();
         items = new Items();
         items.add(new MagicMirror(new Texture(Gdx.files.internal("items/mirror.png"))));
@@ -119,6 +141,25 @@ public class GameScreen implements Screen {
         pausehud = new PauseHUD(this);
         time.start();
     }
+    public static class My_Test{
+        public String clase;
+        public int posx,posy,time;
+    }
+
+
+    public void loadLevel() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Json json = new Json();
+        ArrayList<My_Test> test = json.fromJson(ArrayList.class, My_Test.class, Gdx.files.internal("levels/1-1.json"));
+
+        for(My_Test t : test){
+            Class<?> clazz = Class.forName(t.clase);
+            Constructor<?> ctor = clazz.getConstructor(int.class,int.class,int.class);
+            enemies.add((Enemy) ctor.newInstance(t.posx,MainGame.HEIGHT/t.posy,t.time));
+        }
+
+
+    }
+
 
     public void update(){
 

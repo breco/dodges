@@ -69,7 +69,7 @@ public class Pixie extends Sprite {
         //graphics
         super(texture);
         setPosition(x, y);
-        scale(2);
+        scale(1);
         touchRect = new Rectangle(x-80,y-80,getWidth()+160,getHeight()+160);
         //game logic
         this.HP = HP;
@@ -84,7 +84,7 @@ public class Pixie extends Sprite {
         bulletTexture = new Texture(Gdx.files.internal("bullets/star_bullet.png"));
 
 
-
+        Gdx.app.log("CLASS NAME",this.getClass().toString());
     }
     public void move(){
 

@@ -1,0 +1,6 @@
+
+[
+	{"clase" : "enemies.Bat", "posx" : -50, "posy" : 2, "time" : 1},
+	{"clase" : "enemies.Bat", "posx" : 0, "posy" : 2,   "time" : 5},
+  	{"clase" : "enemies.Bigbat", "posx" : 0, "posy" :2, "time" : 10}
+]

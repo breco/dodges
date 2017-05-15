@@ -46,6 +46,7 @@ public class WorldScreen implements Screen {
         planets = new Planets();
         planets.add(new Planet(new Texture(Gdx.files.internal("planets/fire_planet.png")),100,100));
         planets.add(new Planet(new Texture(Gdx.files.internal("planets/water_planet.png")),0,-100));
+        planets.add(new Planet(new Texture(Gdx.files.internal("planets/grass_planet.png")),-150,50));
 
     }
     public void input(){

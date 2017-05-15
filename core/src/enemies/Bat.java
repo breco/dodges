@@ -23,12 +23,14 @@ public class Bat extends Enemy {
     int SHOT_CONT = ThreadLocalRandom.current().nextInt(10,61);
 
 
-
-    public Bat(Texture texture, int x, int y,char ori,int HP, int ATK, int appearance){
-        super(texture,x,y,HP,ATK,appearance);
-        this.ori = ori;
+    // HP ATK
+    public Bat(int x, int y,int appearance){
+        super(new Texture(Gdx.files.internal("enemies/bat.png")),x,y,14,4,appearance);
+        int index = ThreadLocalRandom.current().nextInt(0,2);
+        char[] orientations = {'L','R'};
+        ori = orientations[index];
         //scale(2);
-        setPosition(x, y);
+        setPosition(x,y);
 
 
 

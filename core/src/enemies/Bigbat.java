@@ -26,8 +26,9 @@ public class Bigbat extends Enemy {
     int MAX_Y = 200;
     int SPD_Y_CONT = 0;
     boolean STOP_SHOOT = false;
-    public Bigbat(Texture texture, int x, int y, int HP, int ATK, int appearance) {
-        super(texture, x, y, HP, ATK, appearance);
+    //HP ATK
+    public Bigbat(int x, int y, int appearance) {
+        super(new Texture(Gdx.files.internal("enemies/bat.png")), x, y, 200, 5, appearance);
         scale(3);
         ori = 'L';
     }
