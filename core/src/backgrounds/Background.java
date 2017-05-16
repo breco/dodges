@@ -18,8 +18,8 @@ public class Background{
         cont = 0;
     }
     public void update(){
-        bg1-=1;
-        bg2-=1;
+        bg1-=2;
+        bg2-=2;
         if(bg1 + MainGame.HEIGHT <= -MainGame.HEIGHT/3){
             bg1 = -MainGame.HEIGHT/3+MainGame.HEIGHT;
         }

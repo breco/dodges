@@ -3,6 +3,7 @@ package com.breco.dodges;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import screens.WorldScreen;
@@ -14,7 +15,8 @@ public class MainGame extends Game {
 	public SpriteBatch hudBatch;
 	public static int WIDTH, HEIGHT;
 	public static float ASPECT_RATIO;
-	public static int SPRITESIZE = 48;
+
+	public static Preferences prefs;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -27,6 +29,7 @@ public class MainGame extends Game {
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
 		ASPECT_RATIO = (float)WIDTH/(float)HEIGHT;
+        prefs = Gdx.app.getPreferences("My Preferences");
 		Gdx.app.log("SIZE", "WIDTH:" + WIDTH + "HEIGHT: " + HEIGHT);
 		//this.setScreen(new GameScreen(this));
 		this.setScreen(new WorldScreen(this));

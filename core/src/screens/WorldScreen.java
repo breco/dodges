@@ -44,9 +44,9 @@ public class WorldScreen implements Screen {
         vec = new Vector3();
 
         planets = new Planets();
-        planets.add(new Planet(new Texture(Gdx.files.internal("planets/fire_planet.png")),100,100));
-        planets.add(new Planet(new Texture(Gdx.files.internal("planets/water_planet.png")),0,-100));
-        planets.add(new Planet(new Texture(Gdx.files.internal("planets/grass_planet.png")),-150,50));
+        planets.add(new Planet(new Texture(Gdx.files.internal("planets/fire_planet.png")),100,100,"1-1"));
+        planets.add(new Planet(new Texture(Gdx.files.internal("planets/water_planet.png")),0,-100,"2-1"));
+        planets.add(new Planet(new Texture(Gdx.files.internal("planets/grass_planet.png")),-150,5,"3-1"));
 
     }
     public void input(){
@@ -60,6 +60,8 @@ public class WorldScreen implements Screen {
     public void update(){
         planets.update();
         if(planets.planetTouched()){
+            game.prefs.putString("loadLevel",planets.getTouched().level);
+            game.prefs.flush();
             game.setScreen(new GameScreen(game));
             dispose();
         }

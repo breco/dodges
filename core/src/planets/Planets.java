@@ -18,6 +18,12 @@ public class Planets {
         }
 
     }
+    public Planet getTouched(){
+        for(Planet planet : planets){
+            if(planet.touched) return planet;
+        }
+        return null;
+    }
     public boolean planetTouched(){
         for(Planet planet : planets){
             if(planet.touched) return true;
