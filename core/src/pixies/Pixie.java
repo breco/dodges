@@ -86,8 +86,28 @@ public class Pixie extends Sprite {
 
         Gdx.app.log("CLASS NAME",this.getClass().toString());
     }
+    public void fixMove(){
+        //touchRect = new Rectangle(x-80,y-80,getWidth()+160,getHeight()+160);
+        int horizontalBorder = 250;
+        if(getX() > horizontalBorder -20){
+            setX(horizontalBorder -20);
+            touchRect.setX(horizontalBorder-20-80);
+        }
+        if(getX() < -horizontalBorder){
+            setX(-horizontalBorder);
+            touchRect.setX(-horizontalBorder-80);
+        }
+        if(getY() > 550){
+            setY(550);
+            touchRect.setY(550-80);
+        }
+        if(getY()< -400){
+            setY(-400);
+            touchRect.setY(-400-80);
+        }
+    }
     public void move(){
-
+        //Gdx.app.log("POSITION",getX()+"");
         if(touched){
             if(MyGestures.newTouch.y >= 5* MainGame.HEIGHT/6-getHeight()){
                 return;
@@ -96,6 +116,7 @@ public class Pixie extends Sprite {
             setY(getY() + MyGestures.diff.y);
             touchRect.setX(touchRect.getX() - MyGestures.diff.x);
             touchRect.setY(touchRect.getY() + MyGestures.diff.y);
+            fixMove();
             return;
         }
 
@@ -108,6 +129,7 @@ public class Pixie extends Sprite {
             setY(getY() + MyGestures.diff2.y);
             touchRect.setX(touchRect.getX() - MyGestures.diff2.x);
             touchRect.setY(touchRect.getY() + MyGestures.diff2.y);
+            fixMove();
         }
 
 

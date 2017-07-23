@@ -116,6 +116,7 @@ public class GameScreen implements Screen {
         pausehud = new PauseHUD(this);
         time.start();
     }
+
     public static class JsonEnemy {
         public String clase;
         public int posx,posy,time;

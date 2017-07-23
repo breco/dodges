@@ -26,6 +26,7 @@ public class Fruit extends Item {
     public void effect() {
 
         Rectangle rect = getBoundingRectangle();
+        rect.setY(rect.getY()+fixMovY);
         vec.set(rect.x,rect.y,0);
         GameScreen.cam.unproject(vec);
         vec.set(vec.x, -vec.y, 0);

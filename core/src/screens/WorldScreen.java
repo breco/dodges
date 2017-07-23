@@ -33,6 +33,7 @@ public class WorldScreen implements Screen {
 
     public Planets planets;
     public WorldScreen(MainGame game){
+        MainGame.setInputProcessor();
         this.game = game;
         cam = new OrthographicCamera();
         cam = new OrthographicCamera(game.WIDTH/2, game.HEIGHT/2);

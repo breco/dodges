@@ -17,12 +17,13 @@ public abstract class Item extends Sprite {
     public boolean touched2 = false;
     public boolean used = false;
     public Vector3 vec;
-
+    public int fixMovY;
     public Item(Texture texture,String type){
         super(texture);
         setSize(100, 100);
         this.type = type;
         vec = new Vector3();
+        fixMovY = 60;
 
     }
     public void update(){
@@ -36,8 +37,6 @@ public abstract class Item extends Sprite {
             setY(getY() + MyGestures.diff.y);
         }
         if(touched2){
-            Gdx.app.log("MOVING",""+MyGestures.diff2.x);
-
             setX(getX() - MyGestures.diff2.x);
             setY(getY() + MyGestures.diff2.y);
         }
@@ -46,12 +45,14 @@ public abstract class Item extends Sprite {
 
     }
     public void draw(SpriteBatch batch){
-        super.draw(batch);
 
+        if(touched || touched2){
+            batch.draw(getTexture(),getX(),getY()+fixMovY,getWidth(),getHeight());
+        }
         //batch.draw();
     }
     public void resetPosition(){
-        Gdx.app.log("RESES POSITION","MYSTERY");
+        Gdx.app.log("RESET POSITION","MYSTERY");
         setPosition(vec.x,vec.y);
     }
     public void setInitPosition(){

@@ -15,14 +15,14 @@ public class MainGame extends Game {
 	public SpriteBatch hudBatch;
 	public static int WIDTH, HEIGHT;
 	public static float ASPECT_RATIO;
-
+	public static InputMultiplexer mux;
 	public static Preferences prefs;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		hudBatch = new SpriteBatch();
 		MyGestures ges = new MyGestures();
-		InputMultiplexer mux = new InputMultiplexer();
+		mux = new InputMultiplexer();
 		mux.addProcessor(ges);
 		mux.addProcessor(ges.gd);
 		Gdx.input.setInputProcessor(mux);
@@ -33,6 +33,7 @@ public class MainGame extends Game {
 		Gdx.app.log("SIZE", "WIDTH:" + WIDTH + "HEIGHT: " + HEIGHT);
 		//this.setScreen(new GameScreen(this));
 		this.setScreen(new WorldScreen(this));
+		//this.setScreen(new UITestScreen(this));
 
 	}
 
@@ -44,5 +45,8 @@ public class MainGame extends Game {
 	public void dispose(){
 		batch.dispose();
 		hudBatch.dispose();
+	}
+	public static void setInputProcessor(){
+		Gdx.input.setInputProcessor(mux);
 	}
 }
