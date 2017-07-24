@@ -1,6 +1,7 @@
 package pixies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,7 @@ import com.breco.dodges.MainGame;
 
 import bullets.PixieBullet;
 import screens.GameScreen;
+import utils.Counter;
 import utils.MyGestures;
 
 /**
@@ -27,13 +29,11 @@ public class Pixie extends Sprite {
     public boolean canBeTouched = true;
     public boolean canBeLongTouched = true;
 
-
     //input variables finger 2
     public boolean touched2 = false;
     public boolean longTouched2 = false;
     public boolean canBeTouched2 = true;
     public boolean canBeLongTouched2 = true;
-
 
     //stats
 
@@ -65,6 +65,13 @@ public class Pixie extends Sprite {
 
     //ability variables
     public boolean abilityUsed = false;
+
+    //impact variables
+    private Counter impactCounter;
+
+    //animation variables
+    private boolean blink = false;
+
     public Pixie(Texture texture,int x, int y,int HP, int ATK, int SPD){
         //graphics
         super(texture);
@@ -82,12 +89,10 @@ public class Pixie extends Sprite {
         COLOR_HP = 'G';
         status = "normal";
         bulletTexture = new Texture(Gdx.files.internal("bullets/star_bullet.png"));
-
-
-        Gdx.app.log("CLASS NAME",this.getClass().toString());
+        impactCounter = new Counter();
+        //Gdx.app.log("CLASS NAME",this.getClass().toString());
     }
     public void fixMove(){
-        //touchRect = new Rectangle(x-80,y-80,getWidth()+160,getHeight()+160);
         int horizontalBorder = 250;
         if(getX() > horizontalBorder -20){
             setX(horizontalBorder -20);
@@ -107,7 +112,6 @@ public class Pixie extends Sprite {
         }
     }
     public void move(){
-        //Gdx.app.log("POSITION",getX()+"");
         if(touched){
             if(MyGestures.newTouch.y >= 5* MainGame.HEIGHT/6-getHeight()){
                 return;
@@ -119,7 +123,6 @@ public class Pixie extends Sprite {
             fixMove();
             return;
         }
-
 
         if(touched2){
             if(MyGestures.newTouch2.y >= 5* MainGame.HEIGHT/6-getHeight()){
@@ -141,17 +144,44 @@ public class Pixie extends Sprite {
         SPD_CONT = 0;
         GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
     }
-    public void update(){
-        if(status.equals("dead")) return;
-        move();
-        shoot();
-        ability();
-    }
+
     public void ability(){
 
     }
+
+    public void update(){
+        if(status.equals("dead")) return;
+        animation();
+        move();
+        //shoot();
+        ability();
+        impactCounter.update();
+        if(impactCounter.check()){
+            impactCounter.reset();
+        }
+    }
+
+    //ANIMATION METHODS
+
+    public void animation(){
+        if(impactCounter.started()){
+            if(blink){
+                blink = false;
+                setColor(Color.WHITE);
+            }
+            else{
+                setColor(Color.BLACK);
+                blink = true;
+            }
+        }
+        else{
+            setColor(Color.WHITE);
+        }
+    }
+    //DRAW METHODS
     public void draw(SpriteBatch batch) {
         if(status.equals("dead")) return;
+
 
         super.draw(batch);
     }
@@ -160,6 +190,9 @@ public class Pixie extends Sprite {
         batch.draw(gray,getX()-getWidth()*1.3f,getY()+getHeight()*2.3f,120,10);
         batch.draw(curr, getX() - getWidth() * 1.3f, getY() + getHeight() * 2.3f, PERCENT_HP * 120 / 100, 10);
     }
+
+     //INPUTS
+
     public void long_input(Vector3 vec){
         if(!canBeLongTouched) return;
         if (touchRect.contains(vec.x, vec.y)){
@@ -196,6 +229,9 @@ public class Pixie extends Sprite {
 
 
     }
+
+    //HP CHANGES METHODS
+
     public void heal(int amount){
         if(status.equals("dead")) return;
         CURRENT_HP+= amount;
@@ -215,6 +251,14 @@ public class Pixie extends Sprite {
             curr = red;
             COLOR_HP = 'R';
         }
+    }
+
+    public void impact(int dmg){
+        if(impactCounter.started()){
+            return;
+        }
+        impactCounter.setLimit(50);
+        damage(dmg);
     }
     public void damage(int dmg){
         CURRENT_HP-= dmg;
@@ -238,9 +282,6 @@ public class Pixie extends Sprite {
         }
     }
 
-    public int compareTo(Pixie o) {
-        return touchDraw - o.touchDraw;
-    }
     //STAT CHANGE METHODS
     public void changeATK(int amount){
         ATK_VARIABLE += amount;
@@ -250,7 +291,6 @@ public class Pixie extends Sprite {
     public void changeSPD(int amount){
         SPD_VARIABLE += amount;
         SPD_TOTAL = SPD_FIXED + SPD_VARIABLE;
-        Gdx.app.log("ChangeSPD",""+SPD_TOTAL);
     }
 
 }

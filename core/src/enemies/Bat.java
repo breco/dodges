@@ -64,9 +64,9 @@ public class Bat extends Enemy {
         }
     }
     public void update(){
-
+        attack();
         move();
-        shoot();
+        //shoot();
     }
     public void draw(SpriteBatch batch){
         super.draw(batch);

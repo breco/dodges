@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 
 
 public class Pixies {
-    public Array<Pixie> pixies;
+    private Array<Pixie> pixies;
     private Pixie temp;
     private float x, y, dist;
 
@@ -20,9 +20,6 @@ public class Pixies {
 
     public void drawHUD(SpriteBatch batch) {
 
-
-
-
         for (Pixie pixie : pixies) {
             pixie.drawHUD(batch);
         }
@@ -31,18 +28,17 @@ public class Pixies {
 
     public void draw(SpriteBatch batch) {
 
+        //make the selected pixie be drawed above other pixies
         temp = null;
         for(Pixie pixie : pixies){
             if(pixie.touched || pixie.touched2)
                 temp = pixie;
         }
         if(temp != null){
-
             pixies.removeValue(temp,false);
             pixies.add(temp);
-
         }
-
+        //draw pixies
         for (Pixie pixie : pixies) {
             pixie.draw(batch);
         }
@@ -60,8 +56,23 @@ public class Pixies {
     }
 
     public Array<Pixie> getPixies() {
-        //
-        return pixies;
+        Array<Pixie> temp = new Array<Pixie>();
+        for(Pixie pixie : pixies){
+            if(!pixie.status.equals("dead")){
+                temp.add(pixie);
+            }
+        }
+        return temp;
+    }
+
+    public Array<Pixie> getDeadPixies() {
+        Array<Pixie> temp = new Array<Pixie>();
+        for(Pixie pixie : pixies){
+            if(pixie.status.equals("dead")){
+                temp.add(pixie);
+            }
+        }
+        return temp;
     }
 
     public void add(Pixie pixie) {

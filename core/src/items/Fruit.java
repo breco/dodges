@@ -32,7 +32,6 @@ public class Fruit extends Item {
         vec.set(vec.x, -vec.y, 0);
         rect.setPosition(vec.x,vec.y);
         for(Pixie pixie: GameScreen.pixies.getPixies()){
-            if(pixie.status.equals("dead")) continue;
             Rectangle inter = new Rectangle();
             Intersector.intersectRectangles(pixie.getBoundingRectangle(), rect, inter);
             if(!(inter.x == 0 && inter.y == 0 & inter.width == 0 & inter.height == 0)){

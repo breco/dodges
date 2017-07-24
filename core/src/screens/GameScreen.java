@@ -143,9 +143,17 @@ public class GameScreen implements Screen {
         bg = new Background(new Texture(Gdx.files.internal("backgrounds/"+base.getString("background"))));
     }
 
+    public void gameConditions(){
+        if(enemies.getEnemies().size == 0){
+            //Gdx.app.log("CONDITIONS","WIN");
+        }
+        if(pixies.getDeadPixies().size == pixies.getPixies().size){
+            Gdx.app.log("CONDITIONS","LOSE");
+        }
+    }
 
     public void update(){
-
+        gameConditions();
         bg.update();
         pixies.update();
         enemies.update();

@@ -1,9 +1,11 @@
 package enemies;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import pixies.Pixie;
 import screens.GameScreen;
 
 /**
@@ -15,6 +17,7 @@ public abstract class Enemy extends Sprite {
     int CURRENT_HP;
     //others
     int appearance;
+
     public Enemy(Texture texture, int x, int y,int HP,int ATK, int appearance){
         super(texture);
         setPosition(x, y);
@@ -34,12 +37,21 @@ public abstract class Enemy extends Sprite {
     public void draw(SpriteBatch batch){
         super.draw(batch);
     }
-    public void getDamage(int dmg){
-        CURRENT_HP-= dmg;
-        if(CURRENT_HP < 0){
+    public void getDamage(int dmg) {
+        CURRENT_HP -= dmg;
+        if (CURRENT_HP < 0) {
             CURRENT_HP = 0;
             GameScreen.enemies.remove(this);
         }
 
+    }
+    public void attack(){
+        for(Pixie pixie : GameScreen.pixies.getPixies()){
+            if(pixie.getBoundingRectangle().overlaps(getBoundingRectangle())){
+                Gdx.app.log("IMPACT","VIENE AQUI");
+                pixie.impact(ATK);
+                return;
+            }
+        }
     }
 }

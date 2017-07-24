@@ -68,9 +68,9 @@ public class Bigbat extends Enemy {
         }
     }
     public void update(){
-
+        this.attack();
         move();
-        shoot();
+        //shoot();
     }
     public void draw(SpriteBatch batch){
         super.draw(batch);
