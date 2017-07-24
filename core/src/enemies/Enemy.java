@@ -1,9 +1,9 @@
 package enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.breco.dodges.MainGame;
 
 import pixies.Pixie;
 import screens.GameScreen;
@@ -31,6 +31,7 @@ public abstract class Enemy extends Sprite {
     public abstract void update();
     public abstract void move();
     public boolean onScreen(){
+        if(getY() <= - MainGame.HEIGHT/2) return false;
         if(appearance <= GameScreen.time.getTime()) return true;
         return false;
     }
@@ -48,7 +49,6 @@ public abstract class Enemy extends Sprite {
     public void attack(){
         for(Pixie pixie : GameScreen.pixies.getPixies()){
             if(pixie.getBoundingRectangle().overlaps(getBoundingRectangle())){
-                Gdx.app.log("IMPACT","VIENE AQUI");
                 pixie.impact(ATK);
                 return;
             }

@@ -261,7 +261,7 @@ public class Pixie extends Sprite {
     }
 
     public void damage(int dmg){
-        if(!impactCounter.started()) impactCounter.setLimit(50);
+        if(!impactCounter.started())  impactCounter.setLimit(50);
         CURRENT_HP-= dmg;
         if(CURRENT_HP < 0){
             CURRENT_HP = 0;

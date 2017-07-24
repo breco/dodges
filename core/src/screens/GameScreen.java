@@ -21,6 +21,7 @@ import enemies.Enemies;
 import enemies.Enemy;
 import huds.MainHUD;
 import huds.PauseHUD;
+import huds.WinHUD;
 import items.Fruit;
 import items.Items;
 import items.MagicMirror;
@@ -39,7 +40,8 @@ public class GameScreen implements Screen {
         PAUSE,
         RUN,
         RESUME,
-        STOPPED
+        STOPPED,
+        WIN
     }
     private State state = State.RUN;
 
@@ -66,7 +68,7 @@ public class GameScreen implements Screen {
     //HUD OBJECTS
     MainHUD hud;
     PauseHUD pausehud;
-
+    WinHUD winhud;
 
 
 
@@ -114,6 +116,7 @@ public class GameScreen implements Screen {
 
         hud = new MainHUD(this);
         pausehud = new PauseHUD(this);
+        winhud = new WinHUD(game);
         time.start();
     }
 
@@ -144,8 +147,9 @@ public class GameScreen implements Screen {
     }
 
     public void gameConditions(){
-        if(enemies.getEnemies().size == 0){
+        if(enemies.enemies.size == enemies.deadEnemies.size + enemies.escapedEnemies.size){
             //Gdx.app.log("CONDITIONS","WIN");
+            state = State.WIN;
         }
         if(pixies.getDeadPixies().size == pixies.getPixies().size){
             Gdx.app.log("CONDITIONS","LOSE");
@@ -222,6 +226,10 @@ public class GameScreen implements Screen {
         vec.set(MyGestures.firstTouch);
         pausehud.input(vec);
     }
+    public void winInput(){
+        vec.set(MyGestures.firstTouch);
+        winhud.input(vec);
+    }
     public void draw(SpriteBatch batch){
 
 
@@ -236,6 +244,9 @@ public class GameScreen implements Screen {
         hud.draw(batch);
         if(state == State.PAUSE)
             pausehud.draw(batch);
+        if(state == State.WIN){
+            winhud.draw(batch);
+        }
 
     }
     @Override
@@ -265,6 +276,9 @@ public class GameScreen implements Screen {
                 pauseInput();
                 break;
             case RESUME:
+                break;
+            case WIN:
+                winInput();
                 break;
 
         }
