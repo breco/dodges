@@ -153,7 +153,7 @@ public class Pixie extends Sprite {
         if(status.equals("dead")) return;
         animation();
         move();
-        //shoot();
+        shoot();
         ability();
         impactCounter.update();
         if(impactCounter.check()){
@@ -257,10 +257,11 @@ public class Pixie extends Sprite {
         if(impactCounter.started()){
             return;
         }
-        impactCounter.setLimit(50);
         damage(dmg);
     }
+
     public void damage(int dmg){
+        if(!impactCounter.started()) impactCounter.setLimit(50);
         CURRENT_HP-= dmg;
         if(CURRENT_HP < 0){
             CURRENT_HP = 0;
