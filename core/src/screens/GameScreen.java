@@ -19,6 +19,7 @@ import backgrounds.Background;
 import bullets.Bullets;
 import enemies.Enemies;
 import enemies.Enemy;
+import huds.LoseHUD;
 import huds.MainHUD;
 import huds.PauseHUD;
 import huds.WinHUD;
@@ -41,7 +42,8 @@ public class GameScreen implements Screen {
         RUN,
         RESUME,
         STOPPED,
-        WIN
+        WIN,
+        LOSE
     }
     private State state = State.RUN;
 
@@ -69,7 +71,7 @@ public class GameScreen implements Screen {
     MainHUD hud;
     PauseHUD pausehud;
     WinHUD winhud;
-
+    LoseHUD losehud;
 
 
 
@@ -89,6 +91,7 @@ public class GameScreen implements Screen {
         pixies.add(new Aqua(0,-250,30,2,30));
         pixies.add(new Agni(150,-250,30,2,30));
         pixies.add(new Tera(-150,-250,30,2,30));
+
         enemies = new Enemies();
 
         //LOAD LEVEL
@@ -117,6 +120,7 @@ public class GameScreen implements Screen {
         hud = new MainHUD(this);
         pausehud = new PauseHUD(this);
         winhud = new WinHUD(game);
+        losehud = new LoseHUD(game);
         time.start();
     }
 
@@ -151,8 +155,8 @@ public class GameScreen implements Screen {
             //Gdx.app.log("CONDITIONS","WIN");
             state = State.WIN;
         }
-        if(pixies.getDeadPixies().size == pixies.getPixies().size){
-            Gdx.app.log("CONDITIONS","LOSE");
+        if(pixies.getDeadPixies().size == 3){
+            state = State.LOSE;
         }
     }
 
@@ -223,12 +227,22 @@ public class GameScreen implements Screen {
 
     }
     public void pauseInput(){
-        vec.set(MyGestures.firstTouch);
-        pausehud.input(vec);
+        if(MyGestures.isTouchDown()) {
+            vec.set(MyGestures.firstTouch);
+            pausehud.input(vec);
+        }
     }
     public void winInput(){
-        vec.set(MyGestures.firstTouch);
-        winhud.input(vec);
+        if(MyGestures.isTouchDown()) {
+            vec.set(MyGestures.firstTouch);
+            winhud.input(vec);
+        }
+    }
+    public void loseInput(){
+        if(MyGestures.isTouchDown()) {
+            vec.set(MyGestures.firstTouch);
+            losehud.input(vec);
+        }
     }
     public void draw(SpriteBatch batch){
 
@@ -246,6 +260,9 @@ public class GameScreen implements Screen {
             pausehud.draw(batch);
         if(state == State.WIN){
             winhud.draw(batch);
+        }
+        if(state == State.LOSE){
+            losehud.draw(batch);
         }
 
     }
@@ -279,6 +296,9 @@ public class GameScreen implements Screen {
                 break;
             case WIN:
                 winInput();
+                break;
+            case LOSE:
+                loseInput();
                 break;
 
         }
