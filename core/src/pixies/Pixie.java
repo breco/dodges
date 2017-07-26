@@ -58,6 +58,7 @@ public class Pixie extends Sprite {
     public Texture red = new Texture(Gdx.files.internal("huds/red.png"));
     public Texture yellow = new Texture(Gdx.files.internal("huds/yellow.png"));
     public Texture gray = new Texture(Gdx.files.internal("huds/gray.png"));
+    public Texture pin = new Texture(Gdx.files.internal("huds/green_pin.png"));
     public Texture curr = green;
     //shoot variables
     private int SPD_CONT = 0;
@@ -77,7 +78,8 @@ public class Pixie extends Sprite {
         super(texture);
         setPosition(x, y);
         scale(1);
-        touchRect = new Rectangle(x-80,y-80,getWidth()+160,getHeight()+160);
+        //touchRect = new Rectangle(x-80,y-80,getWidth()+160,getHeight()+160);
+        touchRect = new Rectangle(getX()-80,getY() - getHeight() * 3f -80,getWidth()+160,getHeight()+160);
         //game logic
         this.HP = HP;
         CURRENT_HP = HP;
@@ -184,11 +186,14 @@ public class Pixie extends Sprite {
 
 
         super.draw(batch);
+        batch.draw(pin,getX(),getY() - getHeight() * 3f);
     }
     public void drawHUD(SpriteBatch batch){
         if(status.equals("dead")) return;
         batch.draw(gray,getX()-getWidth()*1.3f,getY()+getHeight()*2.3f,120,10);
         batch.draw(curr, getX() - getWidth() * 1.3f, getY() + getHeight() * 2.3f, PERCENT_HP * 120 / 100, 10);
+
+
     }
 
      //INPUTS

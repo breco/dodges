@@ -30,7 +30,7 @@ public class Bigbat extends Enemy {
     boolean CURTAIN_SHOOTING = false;
     //HP ATK
     public Bigbat(int x, int y, int appearance) {
-        super(new Texture(Gdx.files.internal("enemies/bat.png")), x, y, 200, 5, appearance);
+        super(new Texture(Gdx.files.internal("enemies/bat.png")), x, y, 500, 5, appearance);
         scale(3);
         ori = 'L';
     }
@@ -81,7 +81,7 @@ public class Bigbat extends Enemy {
         SHOT_CONT--;
         if(SHOT_CONT == 0){
             if(CURTAIN_SHOOTING){
-                SHOT_CONT = 20;
+                SHOT_CONT = 25;
             }
             else{
                 SHOT_CONT = ThreadLocalRandom.current().nextInt(30,41);
