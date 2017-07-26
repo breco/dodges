@@ -86,8 +86,8 @@ public class Pixies {
         }
         for (Pixie pixie : pixies) {
             if (!pixie.longTouched) continue;
-            x = pixie.getX() + pixie.getWidth() / 2;
-            y = pixie.getY() + pixie.getHeight() / 2;
+            x = pixie.touchRect.getX() + pixie.touchRect.getWidth() / 2;
+            y = pixie.touchRect.getY() + pixie.touchRect.getHeight() / 2;
 
             if (vec.dst(x, y, 0) < dist) {
                 dist = vec.dst(x, y, 0);
@@ -120,8 +120,8 @@ public class Pixies {
             //get nearest pixie from touch position
             for (Pixie pixie : pixies) {
                 if (!pixie.touched) continue;
-                x = pixie.getX() + pixie.getWidth() / 2;
-                y = pixie.getY() + pixie.getHeight() / 2;
+                x = pixie.touchRect.getX() + pixie.touchRect.getWidth() / 2;
+                y = pixie.touchRect.getY() + pixie.touchRect.getHeight() / 2;
 
                 if (vec.dst(x, y, 0) < dist) {
                     dist = vec.dst(x, y, 0);
@@ -144,8 +144,8 @@ public class Pixies {
             //get nearest pixie from touch position
             for (Pixie pixie : pixies) {
                 if (!pixie.touched2) continue;
-                x = pixie.getX() + pixie.getWidth() / 2;
-                y = pixie.getY() + pixie.getHeight() / 2;
+                x = pixie.touchRect.getX() + pixie.touchRect.getWidth() / 2;
+                y = pixie.touchRect.getY() + pixie.touchRect.getHeight() / 2;
                 //Gdx.app.log("dist",""+vec.dst(x,y,0));
                 if (vec.dst(x, y, 0) < dist) {
                     dist = vec.dst(x, y, 0);

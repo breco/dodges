@@ -1,6 +1,7 @@
 package enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -99,6 +100,26 @@ public class Bigbat extends Enemy {
         this.attack();
         move();
         shoot();
+        animation();
+        impactCounter.update();
+        if(impactCounter.check()){
+            impactCounter.reset();
+        }
+    }
+    public void animation(){
+        if(impactCounter.started()){
+            if(blink){
+                blink = false;
+                setColor(Color.WHITE);
+            }
+            else{
+                setColor(Color.BLACK);
+                blink = true;
+            }
+        }
+        else{
+            setColor(Color.WHITE);
+        }
     }
     public void draw(SpriteBatch batch){
         super.draw(batch);

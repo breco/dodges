@@ -22,7 +22,7 @@ public class EnemyBullet extends Bullet {
         for(Pixie pixie : GameScreen.pixies.getPixies()){
 
             if(pixie.getBoundingRectangle().contains(getBoundingRectangle())){
-                pixie.damage(ATK);
+                pixie.getDamage(ATK);
                 GameScreen.bullets.remove(this);
                 return;
             }
