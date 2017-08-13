@@ -1,12 +1,12 @@
 package enemies;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.breco.dodges.MainGame;
 
 import pixies.Pixie;
 import screens.GameScreen;
+import utils.Animator;
 import utils.Counter;
 
 /**
@@ -21,9 +21,12 @@ public abstract class Enemy extends Sprite {
     //animation
     boolean blink = false;
     Counter impactCounter;
-    public Enemy(Texture texture, int x, int y,int HP,int ATK, int appearance){
-        super(texture);
+
+    Animator animator;
+
+    public Enemy(int x, int y,int HP,int ATK, int appearance){
         setPosition(x, y);
+        setSize(32,32);
         scale(2);
         this.HP = HP;
         this.ATK = ATK;
@@ -31,6 +34,7 @@ public abstract class Enemy extends Sprite {
         this.appearance = appearance;
         //animation
         impactCounter = new Counter();
+
     }
     public abstract void update();
     public abstract void move();
@@ -42,7 +46,10 @@ public abstract class Enemy extends Sprite {
         return false;
     }
     public void draw(SpriteBatch batch){
-        super.draw(batch);
+        //
+        animator.draw(this,batch);
+
+
     }
     public void getDamage(int dmg) {
         if(!impactCounter.started())  impactCounter.setLimit(25);

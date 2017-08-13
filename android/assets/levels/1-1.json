@@ -1,14 +1,14 @@
 {
 	"enemies" : [
-	  	{"clase" : "enemies.Bat", "posx" : -60, "posy" : 2, "time" : 1},
-	  	{"clase" : "enemies.Bat", "posx" : 0, "posy" : 2,   "time" : 3},
-		{"clase" : "enemies.Bat", "posx" : 40, "posy" : 2,   "time" : 5},
-		{"clase" : "enemies.Bat", "posx" : 0, "posy" : 2,   "time" : 7},
-		{"clase" : "enemies.Bat", "posx" : -60, "posy" : 2,   "time" : 9},
-		{"clase" : "enemies.Bat", "posx" : 0, "posy" : 2,   "time" : 11},
-		{"clase" : "enemies.Bat", "posx" : 40, "posy" : 2,   "time" : 13},
-		{"clase" : "enemies.Bat", "posx" : 0, "posy" : 2,   "time" : 15},
-		{"clase" : "enemies.Bat", "posx" : -60, "posy" : 2,   "time" : 17},
+	  	{"clase" : "enemies.", "posx" : -60, "posy" : 2, "time" : 1},
+	  	{"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 3},
+		{"clase" : "enemies.Tuzzu", "posx" : 40, "posy" : 2,   "time" : 5},
+		{"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 7},
+		{"clase" : "enemies.Tuzzu", "posx" : -60, "posy" : 2,   "time" : 9},
+		{"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 11},
+		{"clase" : "enemies.Tuzzu", "posx" : 40, "posy" : 2,   "time" : 13},
+		{"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 15},
+		{"clase" : "enemies.Tuzzu", "posx" : -60, "posy" : 2,   "time" : 17},
 	  	{"clase" : "enemies.Bigbat", "posx" : -60, "posy" :2, "time" : 20}
 	],
 

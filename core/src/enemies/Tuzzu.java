@@ -9,11 +9,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import bullets.EnemyBullet;
 import screens.GameScreen;
+import utils.Animator;
 
 /**
  * Created by victor on 3/24/17.
  */
-public class Bat extends Enemy {
+public class Tuzzu extends Enemy {
 
     //movement variables
     char ori;
@@ -25,14 +26,13 @@ public class Bat extends Enemy {
 
 
     // HP ATK
-    public Bat(int x, int y,int appearance){
-        super(new Texture(Gdx.files.internal("enemies/bat.png")),x,y,14,4,appearance);
+    public Tuzzu(int x, int y, int appearance){
+        super(x,y,14,4,appearance);
         int index = ThreadLocalRandom.current().nextInt(0,2);
         char[] orientations = {'L','R'};
         ori = orientations[index];
-        //scale(2);
         setPosition(x,y);
-
+        animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4);
 
 
     }

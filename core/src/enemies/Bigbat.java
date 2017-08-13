@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import bullets.EnemyBullet;
 import screens.GameScreen;
+import utils.Animator;
 
 /**
  * Created by victor on 4/3/17.
@@ -31,9 +32,10 @@ public class Bigbat extends Enemy {
     boolean CURTAIN_SHOOTING = false;
     //HP ATK
     public Bigbat(int x, int y, int appearance) {
-        super(new Texture(Gdx.files.internal("enemies/bat.png")), x, y, 500, 5, appearance);
+        super(x, y, 500, 5, appearance);
         scale(3);
         ori = 'L';
+        animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4);
     }
 
 
@@ -92,8 +94,8 @@ public class Bigbat extends Enemy {
         }
     }
     public void createBullet(){
-        float x = getX()+ getWidth();
-        float y = getY();
+        float x = getX()+ getWidth()*3;
+        float y = getY()+ getHeight()/2;
         GameScreen.bullets.add(new EnemyBullet(new Texture(Gdx.files.internal("bullets/normal_bullet.png")),(int)x,(int)y,' ','D',ATK,6));
     }
     public void update(){
@@ -122,6 +124,6 @@ public class Bigbat extends Enemy {
         }
     }
     public void draw(SpriteBatch batch){
-        super.draw(batch);
+        animator.draw(this,batch);
     }
 }
