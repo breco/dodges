@@ -27,15 +27,18 @@ public class Bigbat extends Enemy {
 
     int MAX_Y = 200;
     int SPD_Y_CONT = 0;
-    boolean STOP_SHOOT = false;
 
+    boolean STOP_SHOOT = false;
     boolean CURTAIN_SHOOTING = false;
-    //HP ATK
+
+    Color color = Color.GOLD;
     public Bigbat(int x, int y, int appearance) {
+        //HP ATK
         super(x, y, 500, 5, appearance);
         scale(3);
         ori = 'L';
-        animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4);
+        animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4,0.15f);
+        setColor(color);
     }
 
 
@@ -112,7 +115,7 @@ public class Bigbat extends Enemy {
         if(impactCounter.started()){
             if(blink){
                 blink = false;
-                setColor(Color.WHITE);
+                setColor(color);
             }
             else{
                 setColor(Color.BLACK);
@@ -120,7 +123,7 @@ public class Bigbat extends Enemy {
             }
         }
         else{
-            setColor(Color.WHITE);
+            setColor(color);
         }
     }
     public void draw(SpriteBatch batch){

@@ -7,18 +7,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import enemies.Enemy;
-
 /**
  * Created by victor on 8/12/17.
  */
 
 public class Animator {
-    Texture sheet;
+    public Texture sheet;
     TextureRegion[] animationFrames;
     Animation animation;
     float elapsedTime;
-    public Animator(Texture texture,int rows, int columns, int frames){
+    public Animator(Texture texture,int rows, int columns, int frames,float speed){
+        elapsedTime = 0f;
         sheet = texture;
         TextureRegion[][] tmpFrames = TextureRegion.split(sheet,32,32);
         animationFrames = new TextureRegion[frames];
@@ -31,12 +30,12 @@ public class Animator {
 
 
 
-        animation = new Animation(0.15f,animationFrames);
+        animation = new Animation(speed,animationFrames);
     }
-    public void draw(Enemy enemy, SpriteBatch batch){
+    public void draw(Sprite sprite, SpriteBatch batch){
         elapsedTime += Gdx.graphics.getDeltaTime();
-        enemy.setRegion(getTextureRegion());
-        ((Sprite)(enemy)).draw(batch);
+        sprite.setRegion(animation.getKeyFrame(elapsedTime,true));
+        sprite.draw(batch);
     }
     public TextureRegion getTextureRegion(){
         return animation.getKeyFrame(elapsedTime,true);

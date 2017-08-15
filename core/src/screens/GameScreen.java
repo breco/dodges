@@ -27,10 +27,8 @@ import items.Fruit;
 import items.Items;
 import items.MagicMirror;
 import items.SpeedStar;
-import pixies.Agni;
 import pixies.Aqua;
 import pixies.Pixies;
-import pixies.Tera;
 import utils.MyGestures;
 import utils.TimeManager;
 
@@ -89,8 +87,8 @@ public class GameScreen implements Screen {
         pixies = new Pixies();
         //pos x, pos y, HP, ATK, SPD
         pixies.add(new Aqua(0,-250,30,2,30));
-        pixies.add(new Agni(150,-250,30,2,30));
-        pixies.add(new Tera(-150,-250,30,2,30));
+        pixies.add(new Aqua(150,-250,30,2,30));
+        pixies.add(new Aqua(-150,-250,30,2,30));
 
         enemies = new Enemies();
 

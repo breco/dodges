@@ -2,7 +2,6 @@ package bullets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.breco.dodges.MainGame;
 
 import pixies.Pixie;
 import screens.GameScreen;
@@ -38,8 +37,8 @@ public class BubbleShield extends PixieBullet {
         }
     }
     public void move(){
-        setX(owner.getX() - MainGame.WIDTH/50);
-        setY(owner.getY() - MainGame.HEIGHT/100);
+        setX(owner.getX());// - owner.getWidth()/2);
+        setY(owner.getY()); //- owner.getHeight()/2);
     }
     public void destroy(){
         if ((int)time.getTime() == finishTime){

@@ -2,7 +2,7 @@
 	"enemies" : [
 	  {"clase" : "enemies.Tuzzu", "posx" : -50, "posy" : 2, "time" : 1},
 	  {"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 5},
-	  {"clase" : "enemies.Bigbat", "posx" : -60, "posy" :2, "time" : 10}
+	  {"clase" : "enemies.Bigbat", "posx" : -70, "posy" :2, "time" : 10}
 	],
 
   	"items" : [

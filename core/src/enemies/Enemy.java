@@ -21,7 +21,6 @@ public abstract class Enemy extends Sprite {
     //animation
     boolean blink = false;
     Counter impactCounter;
-
     Animator animator;
 
     public Enemy(int x, int y,int HP,int ATK, int appearance){

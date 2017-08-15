@@ -1,6 +1,6 @@
 {
 	"enemies" : [
-	  	{"clase" : "enemies.", "posx" : -60, "posy" : 2, "time" : 1},
+	  	{"clase" : "enemies.Tuzzu", "posx" : -60, "posy" : 2, "time" : 1},
 	  	{"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 3},
 		{"clase" : "enemies.Tuzzu", "posx" : 40, "posy" : 2,   "time" : 5},
 		{"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 7},
@@ -9,7 +9,7 @@
 		{"clase" : "enemies.Tuzzu", "posx" : 40, "posy" : 2,   "time" : 13},
 		{"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 15},
 		{"clase" : "enemies.Tuzzu", "posx" : -60, "posy" : 2,   "time" : 17},
-	  	{"clase" : "enemies.Bigbat", "posx" : -60, "posy" :2, "time" : 20}
+	  	{"clase" : "enemies.Bigbat", "posx" : -70, "posy" :2, "time" : 20}
 	],
 
   	"items" : [

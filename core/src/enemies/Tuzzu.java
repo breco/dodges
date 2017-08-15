@@ -32,7 +32,7 @@ public class Tuzzu extends Enemy {
         char[] orientations = {'L','R'};
         ori = orientations[index];
         setPosition(x,y);
-        animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4);
+        animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4,0.15f);
 
 
     }

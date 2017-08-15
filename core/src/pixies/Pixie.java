@@ -11,6 +11,7 @@ import com.breco.dodges.MainGame;
 
 import bullets.PixieBullet;
 import screens.GameScreen;
+import utils.Animator;
 import utils.Counter;
 import utils.MyGestures;
 
@@ -72,15 +73,24 @@ public class Pixie extends Sprite {
 
     //animation variables
     private boolean blink = false;
+    Animator animator;
+
+    //TEST NO BORRAR !
+    //Sprite rect = new Sprite(new Texture(Gdx.files.internal("huds/gray.png")));
 
     public Pixie(Texture texture,int x, int y,int HP, int ATK, int SPD){
-        //graphics
-        super(texture);
-        setPosition(x, y);
+        super();
+        setPosition(x,y);
+        setSize(32,32);
         scale(1);
+
         //touchRect = new Rectangle(x-80,y-80,getWidth()+160,getHeight()+160);
-        touchRect = new Rectangle(getX()-80,getY() - getHeight() * 3f -80,getWidth()+160,getHeight()+160);
+
+
+        touchRect = new Rectangle(getX()+getWidth()/2-80,getY() - getHeight() * 3f -80,getWidth()+160,getHeight()+220);
+
         //game logic
+
         this.HP = HP;
         CURRENT_HP = HP;
         ATK_FIXED = ATK;
@@ -95,22 +105,22 @@ public class Pixie extends Sprite {
         //Gdx.app.log("CLASS NAME",this.getClass().toString());
     }
     public void fixMove(){
-        int horizontalBorder = 250;
-        if(getX() > horizontalBorder -20){
-            setX(horizontalBorder -20);
-            touchRect.setX(horizontalBorder-20-80);
+        int horizontalBorder = 230;
+        if(getX() > horizontalBorder){
+            setX(horizontalBorder);
+            touchRect.setX(horizontalBorder+getWidth()/2-80);
         }
-        if(getX() < -horizontalBorder){
-            setX(-horizontalBorder);
-            touchRect.setX(-horizontalBorder-80);
+        if(getX() < -horizontalBorder-50){
+            setX(-horizontalBorder-50);
+            touchRect.setX(-horizontalBorder-50+getWidth()/2-80);
         }
         if(getY() > 550){
             setY(550);
-            touchRect.setY(550-80);
+            touchRect.setY(550- getHeight() * 3f -80);
         }
         if(getY()< -400){
             setY(-400);
-            touchRect.setY(-400-80);
+            touchRect.setY(-400- getHeight() * 3f -80);
         }
     }
     public void move(){
@@ -144,7 +154,7 @@ public class Pixie extends Sprite {
         SPD_CONT++;
         if(SPD_CONT < SPD_TOTAL) return;
         SPD_CONT = 0;
-        GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
+        GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth()*3/4f), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
     }
 
     public void ability(){
@@ -185,18 +195,21 @@ public class Pixie extends Sprite {
         if(status.equals("dead")) return;
 
 
-        super.draw(batch);
-        batch.draw(pin,getX(),getY() - getHeight() * 3f);
+        //batch.draw(rect.getTexture(),touchRect.getX(),touchRect.getY(),touchRect.getWidth(),touchRect.getHeight());
+        animator.draw(this,batch);
+
+        batch.draw(pin,getX()+getWidth()/2,getY() - getHeight() * 3f);
     }
     public void drawHUD(SpriteBatch batch){
         if(status.equals("dead")) return;
-        batch.draw(gray,getX()-getWidth()*1.3f,getY()+getHeight()*2.3f,120,10);
-        batch.draw(curr, getX() - getWidth() * 1.3f, getY() + getHeight() * 2.3f, PERCENT_HP * 120 / 100, 10);
+        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f,MainGame.WIDTH*0.2f ,10);
+
+        batch.draw(curr, getX() - getWidth(), getY() + getHeight()*3.5f, PERCENT_HP * MainGame.WIDTH*0.2f / 100f, 10);
 
 
     }
 
-     //INPUTS
+    //INPUTS
 
     public void long_input(Vector3 vec){
         if(!canBeLongTouched) return;
@@ -243,7 +256,7 @@ public class Pixie extends Sprite {
         if(CURRENT_HP > HP){
             CURRENT_HP = HP;
         }
-        PERCENT_HP = CURRENT_HP*100/HP;
+        PERCENT_HP = CURRENT_HP*100f/HP;
         if(PERCENT_HP >= 50){
             curr = green;
             COLOR_HP = 'G';
@@ -282,10 +295,15 @@ public class Pixie extends Sprite {
             COLOR_HP = 'Y';
             curr = yellow;
         }
+
         else{
             curr = red;
             COLOR_HP = 'R';
         }
+        if(PERCENT_HP < 1){
+            PERCENT_HP = 1;
+        }
+
     }
 
     //STAT CHANGE METHODS
