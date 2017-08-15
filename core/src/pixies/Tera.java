@@ -17,12 +17,10 @@ public class Tera extends Pixie {
         rock = new Texture(Gdx.files.internal("effects/stone.png"));
     }
     public void ability(){
-        if(!longTouched) return;
-        if(abilityUsed) return;
         for(int i = 0;i<5;i++){
             GameScreen.bullets.add(new RockWheel(rock,this,72*i));
         }
 
-        abilityUsed = true;
+       // abilityUsed = true;
     }
 }

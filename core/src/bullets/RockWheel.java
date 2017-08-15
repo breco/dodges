@@ -19,7 +19,7 @@ public class RockWheel extends PixieBullet {
     private int BONUS_ATK = 2;
     public RockWheel(Texture texture, Pixie owner,int grados) {
         //ATK = 20, SPD = 1
-        super(texture, 1,1, ' ', ' ', 0, 0);
+        super(owner,texture, 1,1, ' ', ' ', 0, 0);
         radio = MainGame.WIDTH/10;
         this.owner = owner;
         this.grados = grados;

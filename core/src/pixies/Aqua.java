@@ -12,16 +12,19 @@ import utils.Animator;
  */
 public class Aqua extends Pixie {
     private Texture bubble;
+    private int PP_COST = 40;
     public Aqua(int x, int y, int HP, int ATK, int SPD) {
         super(new Texture(Gdx.files.internal("pixies/aqualis.png")), x, y, HP, ATK, SPD);
         bulletTexture = new Texture(Gdx.files.internal("bullets/star_bullet2.png"));
         bubble = new Texture(Gdx.files.internal("effects/bubble.png"));
         animator = new Animator(new Texture(Gdx.files.internal("pixies/aqualis.png")),1,2,2,0.4f);
+        PP = 40;
     }
     public void ability(){
-        if(!longTouched) return;
-        if(abilityUsed) return;
+        if(CURRENT_PP < PP_COST) return;
+        CURRENT_PP -= PP_COST;
+
         GameScreen.bullets.add(new BubbleShield(bubble,1,1,' ',' ',this));
-        abilityUsed = true;
+        //abilityUsed = true;
     }
 }

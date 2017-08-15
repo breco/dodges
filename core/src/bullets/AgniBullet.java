@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import enemies.Enemy;
+import pixies.Pixie;
 import screens.GameScreen;
 
 /**
@@ -14,9 +15,9 @@ public class AgniBullet extends PixieBullet {
     private Array<Enemy> enemiesSelected;
     private int SPD_X,SPD_Y;
     private Rectangle rect;
-    public AgniBullet(Texture texture, int x, int y, char oriX, char oriY) {
+    public AgniBullet(Pixie owner, Texture texture, int x, int y, char oriX, char oriY) {
         //// atk = 5;speed = 3
-        super(texture, x, y, oriX, oriY, 50, 20);
+        super(owner,texture, x, y, oriX, oriY, 50, 20);
         enemiesSelected = new Array<Enemy>();
         SPD_X = 5;
         SPD_Y = 15;

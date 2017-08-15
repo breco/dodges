@@ -18,7 +18,7 @@ public class MirrorShield extends PixieBullet {
     private Rectangle rect;
     private Bullet bullet;
     public MirrorShield(Texture texture, Pixie owner) {
-        super(texture, 1, 1, ' ', ' ', 0, 0);
+        super(owner,texture, 1, 1, ' ', ' ', 0, 0);
         scale(2);
         this.owner = owner;
         time = new TimeManager();
@@ -42,7 +42,7 @@ public class MirrorShield extends PixieBullet {
             if(bullet instanceof PixieBullet) continue;
             if(rect.overlaps(bullet.getBoundingRectangle())){
                 GameScreen.bullets.remove(bullet);
-                Bullet newBullet = new PixieBullet(bullet.getTexture(),(int)bullet.getX(),(int)bullet.getY(),' ','U',bullet.ATK,bullet.SPD);
+                Bullet newBullet = new PixieBullet(owner,bullet.getTexture(),(int)bullet.getX(),(int)bullet.getY(),' ','U',bullet.ATK,bullet.SPD);
                 newBullet.setColor(Color.LIGHT_GRAY);
                 GameScreen.bullets.add(newBullet);
                 return;

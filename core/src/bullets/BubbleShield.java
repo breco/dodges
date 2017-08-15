@@ -18,7 +18,7 @@ public class BubbleShield extends PixieBullet {
     private Bullet bullet;
     public BubbleShield(Texture texture, int x, int y, char oriX, char oriY, Pixie owner) {
         //attack = 0, speed = 0
-        super(texture, x, y, oriX, oriY,0,0);
+        super(owner,texture, x, y, oriX, oriY,0,0);
         this.owner = owner;
         finishTime = 10;
         time = new TimeManager();

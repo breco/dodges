@@ -17,12 +17,9 @@ public class Agni extends Pixie {
         fireball = new Texture(Gdx.files.internal("effects/fireball.png"));
     }
     public void ability(){
-        if(!longTouched) return;
-        if(abilityUsed) return;
-
-        GameScreen.bullets.add(new AgniBullet(fireball, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U'));
-        GameScreen.bullets.add(new AgniBullet(fireball,(int) (getX() + getWidth() / 2), (int) (getY() + getHeight()),'L','U'));
-        GameScreen.bullets.add(new AgniBullet(fireball,(int) (getX() + getWidth() / 2), (int) (getY() + getHeight()),'R','U'));
-        abilityUsed = true;
+        GameScreen.bullets.add(new AgniBullet(this,fireball, (int) (getX() + getWidth() / 2), (int) (getY() + getHeight()), ' ', 'U'));
+        GameScreen.bullets.add(new AgniBullet(this,fireball,(int) (getX() + getWidth() / 2), (int) (getY() + getHeight()),'L','U'));
+        GameScreen.bullets.add(new AgniBullet(this,fireball,(int) (getX() + getWidth() / 2), (int) (getY() + getHeight()),'R','U'));
+        //abilityUsed = true;
     }
 }

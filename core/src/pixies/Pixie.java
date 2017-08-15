@@ -40,6 +40,8 @@ public class Pixie extends Sprite {
 
     public int HP;
     public int CURRENT_HP;
+    public int PP;
+    public int CURRENT_PP;
     //attack
     private int ATK_FIXED, ATK_VARIABLE = 0,ATK_TOTAL;
     //speed
@@ -54,19 +56,22 @@ public class Pixie extends Sprite {
 
     //variables for hud
     public float PERCENT_HP;
+    public float PERCENT_PP;
     public char COLOR_HP;
     public Texture green = new Texture(Gdx.files.internal("huds/green.png"));
     public Texture red = new Texture(Gdx.files.internal("huds/red.png"));
     public Texture yellow = new Texture(Gdx.files.internal("huds/yellow.png"));
     public Texture gray = new Texture(Gdx.files.internal("huds/gray.png"));
+    public Texture purple = new Texture(Gdx.files.internal("huds/purple.png"));
     public Texture pin = new Texture(Gdx.files.internal("huds/green_pin.png"));
     public Texture curr = green;
+
     //shoot variables
     private int SPD_CONT = 0;
     public Texture bulletTexture;
 
     //ability variables
-    public boolean abilityUsed = false;
+    //public boolean abilityUsed = false;
 
     //impact variables
     private Counter impactCounter;
@@ -93,6 +98,8 @@ public class Pixie extends Sprite {
 
         this.HP = HP;
         CURRENT_HP = HP;
+        this.PP = 10;
+        CURRENT_PP = 0;
         ATK_FIXED = ATK;
         ATK_TOTAL = ATK_FIXED + ATK_VARIABLE;
         SPD_FIXED = SPD;
@@ -154,9 +161,16 @@ public class Pixie extends Sprite {
         SPD_CONT++;
         if(SPD_CONT < SPD_TOTAL) return;
         SPD_CONT = 0;
-        GameScreen.bullets.add(new PixieBullet(bulletTexture, (int) (getX() + getWidth()*3/4f), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
+        GameScreen.bullets.add(new PixieBullet(this,bulletTexture, (int) (getX() + getWidth()*3/4f), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
     }
 
+    public void canAbility(){
+        if(!longTouched) return;
+        longTouched= false;
+        //if(abilityUsed) return;
+
+        ability();
+    }
     public void ability(){
 
     }
@@ -166,7 +180,7 @@ public class Pixie extends Sprite {
         animation();
         move();
         shoot();
-        ability();
+        canAbility();
         impactCounter.update();
         if(impactCounter.check()){
             impactCounter.reset();
@@ -202,10 +216,10 @@ public class Pixie extends Sprite {
     }
     public void drawHUD(SpriteBatch batch){
         if(status.equals("dead")) return;
-        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f,MainGame.WIDTH*0.2f ,10);
-
-        batch.draw(curr, getX() - getWidth(), getY() + getHeight()*3.5f, PERCENT_HP * MainGame.WIDTH*0.2f / 100f, 10);
-
+        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f,MainGame.WIDTH*0.2f ,MainGame.HEIGHT*0.0083f);
+        batch.draw(curr, getX() - getWidth(), getY() + getHeight()*3.5f, PERCENT_HP * MainGame.WIDTH*0.2f / 100f, MainGame.HEIGHT*0.0083f);
+        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f-MainGame.HEIGHT*0.0083f,MainGame.WIDTH*0.2f ,MainGame.HEIGHT*0.0083f);
+        batch.draw(purple, getX() - getWidth(), getY() + getHeight()*3.5f-MainGame.HEIGHT*0.0083f, PERCENT_PP * MainGame.WIDTH*0.2f / 100f, MainGame.HEIGHT*0.0083f);
 
     }
 
@@ -306,6 +320,16 @@ public class Pixie extends Sprite {
 
     }
 
+    //PP CHANGE METHODS
+
+    public void chargePower(int amount){
+        if(status.equals("dead")) return;
+        CURRENT_PP+= amount;
+        if(CURRENT_PP > PP){
+            CURRENT_PP = PP;
+        }
+        PERCENT_PP = CURRENT_PP*100f/PP;
+    }
     //STAT CHANGE METHODS
     public void changeATK(int amount){
         ATK_VARIABLE += amount;
