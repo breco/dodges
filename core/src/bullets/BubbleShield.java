@@ -1,10 +1,10 @@
 package bullets;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
 import pixies.Pixie;
 import screens.GameScreen;
+import utils.Animator;
 import utils.TimeManager;
 
 /**
@@ -16,9 +16,9 @@ public class BubbleShield extends PixieBullet {
     private TimeManager time;
     private int finishTime;
     private Bullet bullet;
-    public BubbleShield(Texture texture, int x, int y, char oriX, char oriY, Pixie owner) {
+    public BubbleShield(Animator animator, int x, int y, char oriX, char oriY, Pixie owner) {
         //attack = 0, speed = 0
-        super(owner,texture, x, y, oriX, oriY,0,0);
+        super(owner,animator, x, y, oriX, oriY,0,0);
         this.owner = owner;
         finishTime = 10;
         time = new TimeManager();

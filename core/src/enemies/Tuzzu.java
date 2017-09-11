@@ -33,7 +33,9 @@ public class Tuzzu extends Enemy {
         ori = orientations[index];
         setPosition(x,y);
         animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4,0.15f);
-
+        //pium = Gdx.audio.newSound(Gdx.files.internal("sound effects/04.wav"));
+        int[] size = {15,15};
+        bulletAnimator = new Animator(new Texture(Gdx.files.internal("bullets/tuzzu bullet.png")),1,2,2,0.8f,size);
 
     }
 
@@ -61,7 +63,8 @@ public class Tuzzu extends Enemy {
             SHOT_CONT = ThreadLocalRandom.current().nextInt(100,151);
             float x = getX()+ getWidth();
             float y = getY();
-            GameScreen.bullets.add(new EnemyBullet(new Texture(Gdx.files.internal("bullets/normal_bullet.png")),(int)x,(int)y,' ','D',ATK,6));
+
+            GameScreen.bullets.add(new EnemyBullet(bulletAnimator,(int)x,(int)y,' ','D',ATK,6));
         }
     }
     public void update(){
@@ -90,6 +93,6 @@ public class Tuzzu extends Enemy {
         }
     }
     public void draw(SpriteBatch batch){
-        super.draw(batch);
+        animator.draw(this,batch);
     }
 }

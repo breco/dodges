@@ -1,11 +1,11 @@
 package bullets;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
 import pixies.Pixie;
 import screens.GameScreen;
+import utils.Animator;
 import utils.TimeManager;
 
 /**
@@ -17,8 +17,8 @@ public class MirrorShield extends PixieBullet {
     private int finishTime = 10;
     private Rectangle rect;
     private Bullet bullet;
-    public MirrorShield(Texture texture, Pixie owner) {
-        super(owner,texture, 1, 1, ' ', ' ', 0, 0);
+    public MirrorShield(Animator animator, Pixie owner) {
+        super(owner,animator, 1, 1, ' ', ' ', 0, 0);
         scale(2);
         this.owner = owner;
         time = new TimeManager();
@@ -42,7 +42,7 @@ public class MirrorShield extends PixieBullet {
             if(bullet instanceof PixieBullet) continue;
             if(rect.overlaps(bullet.getBoundingRectangle())){
                 GameScreen.bullets.remove(bullet);
-                Bullet newBullet = new PixieBullet(owner,bullet.getTexture(),(int)bullet.getX(),(int)bullet.getY(),' ','U',bullet.ATK,bullet.SPD);
+                Bullet newBullet = new PixieBullet(owner,bullet.animator,(int)bullet.getX(),(int)bullet.getY(),' ','U',bullet.ATK,bullet.SPD);
                 newBullet.setColor(Color.LIGHT_GRAY);
                 GameScreen.bullets.add(newBullet);
                 return;

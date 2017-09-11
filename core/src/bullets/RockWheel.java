@@ -1,11 +1,11 @@
 package bullets;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.breco.dodges.MainGame;
 
 import pixies.Pixie;
 import screens.GameScreen;
+import utils.Animator;
 
 /**
  * Created by victor on 4/21/17.
@@ -17,9 +17,9 @@ public class RockWheel extends PixieBullet {
     private int radio;
     private Pixie owner;
     private int BONUS_ATK = 2;
-    public RockWheel(Texture texture, Pixie owner,int grados) {
+    public RockWheel(Animator animator, Pixie owner, int grados) {
         //ATK = 20, SPD = 1
-        super(owner,texture, 1,1, ' ', ' ', 0, 0);
+        super(owner,animator, 1,1, ' ', ' ', 0, 0);
         radio = MainGame.WIDTH/10;
         this.owner = owner;
         this.grados = grados;

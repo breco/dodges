@@ -1,8 +1,9 @@
 package bullets;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import utils.Animator;
 
 /**
  * Created by victor on 3/24/17.
@@ -10,14 +11,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public abstract class Bullet extends Sprite {
     char oriX,oriY;
     int SPD,ATK;
-    public Bullet(Texture texture, int x, int y,char oriX,char oriY,int ATK,int SPD){
-        super(texture);
-        scale(1.5f);
+    public Animator animator;
+    public Bullet(Animator animator, int x, int y,char oriX,char oriY,int ATK,int SPD){
         setPosition(x, y);
         this.oriX = oriX;
         this.oriY = oriY;
         this.SPD = SPD;
         this.ATK = ATK;
+        this.animator = animator;
+        setSize(animator.width*2,animator.height*2);
     }
     public void move(){
         if(oriX == 'L'){
@@ -40,6 +42,9 @@ public abstract class Bullet extends Sprite {
         destroy();
     }
     public void draw(SpriteBatch batch){
-        super.draw(batch);
+        //
+        //super.draw(batch);
+
+        animator.draw(this,batch);
     }
 }

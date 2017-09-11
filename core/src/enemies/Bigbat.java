@@ -34,11 +34,13 @@ public class Bigbat extends Enemy {
     Color color = Color.GOLD;
     public Bigbat(int x, int y, int appearance) {
         //HP ATK
-        super(x, y, 500, 5, appearance);
+        super(x, y, 200, 5, appearance);
         scale(3);
         ori = 'L';
         animator = new Animator(new Texture(Gdx.files.internal("enemies/tuzzu.png")),1,4,4,0.15f);
         setColor(color);
+        int[] size = {15,15};
+        bulletAnimator = new Animator(new Texture(Gdx.files.internal("bullets/tuzzu bullet.png")),1,2,2,0.8f,size);
     }
 
 
@@ -99,7 +101,7 @@ public class Bigbat extends Enemy {
     public void createBullet(){
         float x = getX()+ getWidth()*3;
         float y = getY()+ getHeight()/2;
-        GameScreen.bullets.add(new EnemyBullet(new Texture(Gdx.files.internal("bullets/normal_bullet.png")),(int)x,(int)y,' ','D',ATK,6));
+        GameScreen.bullets.add(new EnemyBullet(bulletAnimator,(int)x,(int)y,' ','D',ATK,6));
     }
     public void update(){
         this.attack();

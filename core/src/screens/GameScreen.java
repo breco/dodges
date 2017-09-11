@@ -2,6 +2,7 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,6 +30,7 @@ import items.MagicMirror;
 import items.SpeedStar;
 import pixies.Aqua;
 import pixies.Pixies;
+import pixies.Tera;
 import utils.MyGestures;
 import utils.TimeManager;
 
@@ -71,7 +73,9 @@ public class GameScreen implements Screen {
     WinHUD winhud;
     LoseHUD losehud;
 
+    //MUSIC AND SOUND EFFECTS
 
+    Music ost;
 
     public GameScreen(MainGame game){
 
@@ -87,7 +91,7 @@ public class GameScreen implements Screen {
         pixies = new Pixies();
         //pos x, pos y, HP, ATK, SPD
         pixies.add(new Aqua(0,-250,30,2,30));
-        pixies.add(new Aqua(150,-250,30,2,30));
+        pixies.add(new Tera(150,-250,30,2,30));
         pixies.add(new Aqua(-150,-250,30,2,30));
 
         enemies = new Enemies();
@@ -120,6 +124,10 @@ public class GameScreen implements Screen {
         winhud = new WinHUD(game);
         losehud = new LoseHUD(game);
         time.start();
+
+        ost = Gdx.audio.newMusic(Gdx.files.internal("music/02.wav"));
+        ost.setLooping(true);
+        ost.play();
     }
 
     public static class JsonEnemy {
@@ -151,9 +159,13 @@ public class GameScreen implements Screen {
     public void gameConditions(){
         if(enemies.enemies.size == enemies.deadEnemies.size + enemies.escapedEnemies.size){
             //Gdx.app.log("CONDITIONS","WIN");
+            ost.stop();
+            winhud.sound();
             state = State.WIN;
         }
         if(pixies.getDeadPixies().size == 3){
+            ost.stop();
+            losehud.sound();
             state = State.LOSE;
         }
     }
@@ -289,14 +301,18 @@ public class GameScreen implements Screen {
                 break;
             case PAUSE:
                 pauseInput();
+                pixies.pause();
                 break;
             case RESUME:
+                pixies.unpause();
                 break;
             case WIN:
                 winInput();
+                pixies.pause();
                 break;
             case LOSE:
                 loseInput();
+                pixies.pause();
                 break;
 
         }
@@ -326,6 +342,8 @@ public class GameScreen implements Screen {
     public void resume() {
         state = State.RUN;
         time.unpause();
+        pixies.unpause();
+
     }
 
     @Override
@@ -335,6 +353,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        ost.stop();
+        ost.dispose();
+        pixies.dispose();
     }
 }

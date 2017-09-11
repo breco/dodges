@@ -44,9 +44,27 @@ public class Pixies {
         }
     }
 
+
     public void update() {
         for (Pixie pixie : pixies) {
             pixie.update();
+        }
+    }
+
+    public void pause(){
+        for(Pixie pixie: pixies){
+            pixie.pause();
+        }
+    }
+
+    public void unpause(){
+        for(Pixie pixie: pixies){
+            pixie.unpause();
+        }
+    }
+    public void dispose(){
+        for(Pixie pixie: pixies){
+            pixie.dispose();
         }
     }
 

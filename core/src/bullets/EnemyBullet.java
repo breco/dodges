@@ -1,17 +1,17 @@
 package bullets;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.breco.dodges.MainGame;
 
 import pixies.Pixie;
 import screens.GameScreen;
+import utils.Animator;
 
 /**
  * Created by victor on 3/25/17.
  */
 public class EnemyBullet extends Bullet {
-    public EnemyBullet(Texture texture, int x, int y, char oriX, char oriY, int ATK,int SPD) {
-        super(texture, x, y, oriX, oriY, ATK, SPD);
+    public EnemyBullet(Animator animator, int x, int y, char oriX, char oriY, int ATK, int SPD) {
+        super(animator, x, y, oriX, oriY, ATK, SPD);
     }
     public void update(){
         move();

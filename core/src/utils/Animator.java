@@ -16,10 +16,25 @@ public class Animator {
     TextureRegion[] animationFrames;
     Animation animation;
     float elapsedTime;
-    public Animator(Texture texture,int rows, int columns, int frames,float speed){
+    public int width, height;
+    public Animator(Texture texture,int rows, int columns, int frames,float speed,int[]... size){
+
+        int x,y;
+        if(size.length == 0){
+            x = 32;
+            y = 32;
+
+        }
+        else{
+            x = size[0][0];
+            y = size[0][1];
+
+        }
+        width = x;
+        height = y;
         elapsedTime = 0f;
         sheet = texture;
-        TextureRegion[][] tmpFrames = TextureRegion.split(sheet,32,32);
+        TextureRegion[][] tmpFrames = TextureRegion.split(sheet,x,y);
         animationFrames = new TextureRegion[frames];
         int index = 0;
         for(int i = 0; i < rows;i++){
@@ -35,6 +50,7 @@ public class Animator {
     public void draw(Sprite sprite, SpriteBatch batch){
         elapsedTime += Gdx.graphics.getDeltaTime();
         sprite.setRegion(animation.getKeyFrame(elapsedTime,true));
+        //batch.draw(getTextureRegion(),sprite.getX(),sprite.getY(),0,0,width,height,1f,1f,0);
         sprite.draw(batch);
     }
     public TextureRegion getTextureRegion(){

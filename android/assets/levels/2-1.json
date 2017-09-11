@@ -1,8 +1,10 @@
 {
 	"enemies" : [
 	  {"clase" : "enemies.Tuzzu", "posx" : -50, "posy" : 2, "time" : 1},
-	  {"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 5},
-	  {"clase" : "enemies.Bigbat", "posx" : -70, "posy" :2, "time" : 10}
+	  {"clase" : "enemies.Tuzzu", "posx" : 0, "posy" : 2,   "time" : 5}/*,
+      {"clase" : "enemies.Repeater", "posx" : -280, "posy" : 2, "time" : 13},
+      {"clase" : "enemies.Repeater", "posx" : 200, "posy" : 2, "time" : 13},
+	  {"clase" : "enemies.Bigbat", "posx" : -70, "posy" :2, "time" : 10}*/
 	],
 
   	"items" : [

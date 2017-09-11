@@ -1,18 +1,17 @@
 package bullets;
 
-import com.badlogic.gdx.graphics.Texture;
-
 import enemies.Enemy;
 import pixies.Pixie;
 import screens.GameScreen;
+import utils.Animator;
 
 /**
  * Created by victor on 3/25/17.
  */
 public class PixieBullet extends Bullet {
     public Pixie owner;
-    public PixieBullet(Pixie owner, Texture texture, int x, int y, char oriX, char oriY, int ATK, int SPD) {
-        super(texture, x, y, oriX,oriY, ATK,SPD);
+    public PixieBullet(Pixie owner, Animator animator, int x, int y, char oriX, char oriY, int ATK, int SPD) {
+        super(animator, x, y, oriX,oriY, ATK,SPD);
         this.owner = owner;
     }
     public void update(){

@@ -7,10 +7,11 @@ public class TimeManager {
     private long startTime;
     private long totalPauseTime;
     private long pauseInit;
-    private int counter;
+    private float chronometer;
     public TimeManager(){
         pauseInit = 0;
         totalPauseTime = 0;
+        startTime = 0;
     }
     public void start(){
         //
@@ -20,20 +21,23 @@ public class TimeManager {
         //
         return (System.nanoTime() - startTime - totalPauseTime)/1000000000f;
     }
-    public void setCounter(int seconds){
-        counter = seconds;
-        startTime = System.nanoTime();
-    }
-    public boolean checkCounter(){
-        if((System.nanoTime() - startTime - totalPauseTime)/1000000000f > counter){
-            return true;
-        }
-        return false;
-    }
+
     public void pause(){
         pauseInit = System.nanoTime();
     }
     public void unpause(){
         totalPauseTime+= System.nanoTime()- pauseInit;
+    }
+    public void reset(){
+        startTime = 0;
+        pauseInit = 0;
+        totalPauseTime = 0;
+    }
+    public void setChronometer(float seconds){
+        this.chronometer = seconds;
+    }
+    public boolean ring(){
+        if(getTime()>= chronometer) return true;
+        return false;
     }
 }

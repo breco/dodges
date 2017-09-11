@@ -1,12 +1,12 @@
 package bullets;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import enemies.Enemy;
 import pixies.Pixie;
 import screens.GameScreen;
+import utils.Animator;
 
 /**
  * Created by victor on 4/18/17.
@@ -15,9 +15,9 @@ public class AgniBullet extends PixieBullet {
     private Array<Enemy> enemiesSelected;
     private int SPD_X,SPD_Y;
     private Rectangle rect;
-    public AgniBullet(Pixie owner, Texture texture, int x, int y, char oriX, char oriY) {
+    public AgniBullet(Pixie owner, Animator animator, int x, int y, char oriX, char oriY) {
         //// atk = 5;speed = 3
-        super(owner,texture, x, y, oriX, oriY, 50, 20);
+        super(owner,animator, x, y, oriX, oriY, 50, 20);
         enemiesSelected = new Array<Enemy>();
         SPD_X = 5;
         SPD_Y = 15;

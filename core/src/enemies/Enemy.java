@@ -1,5 +1,6 @@
 package enemies;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.breco.dodges.MainGame;
@@ -22,7 +23,9 @@ public abstract class Enemy extends Sprite {
     boolean blink = false;
     Counter impactCounter;
     Animator animator;
-
+    Animator bulletAnimator;
+    //sound effects
+    Sound pium;
     public Enemy(int x, int y,int HP,int ATK, int appearance){
         setPosition(x, y);
         setSize(32,32);
@@ -35,6 +38,7 @@ public abstract class Enemy extends Sprite {
         impactCounter = new Counter();
 
     }
+    public abstract void shoot();
     public abstract void update();
     public abstract void move();
     public abstract void animation();
@@ -44,12 +48,7 @@ public abstract class Enemy extends Sprite {
         if(appearance <= GameScreen.time.getTime()) return true;
         return false;
     }
-    public void draw(SpriteBatch batch){
-        //
-        animator.draw(this,batch);
-
-
-    }
+    public abstract void draw(SpriteBatch batch);
     public void getDamage(int dmg) {
         if(!impactCounter.started())  impactCounter.setLimit(25);
         CURRENT_HP -= dmg;

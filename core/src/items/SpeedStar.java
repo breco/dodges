@@ -13,7 +13,7 @@ import utils.TimeManager;
  * Created by victor on 4/21/17.
  */
 public class SpeedStar extends Item {
-    private int amount;
+    private float amount;
     private TimeManager time;
     private int EFFECT_DURATION = 30;
     private boolean finished = false;
@@ -21,7 +21,7 @@ public class SpeedStar extends Item {
     public Vector3 vec;
     public SpeedStar(Texture texture) {
         super(texture, "select");
-        amount = -10;
+        amount = 0.25f;
         time = new TimeManager();
         vec = new Vector3();
 

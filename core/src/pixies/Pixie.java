@@ -1,6 +1,7 @@
 package pixies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,10 +11,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.breco.dodges.MainGame;
 
 import bullets.PixieBullet;
+import huds.PixiePin;
 import screens.GameScreen;
 import utils.Animator;
 import utils.Counter;
 import utils.MyGestures;
+import utils.TimeManager;
 
 /**
  * Created by victor on 3/21/17.
@@ -53,7 +56,6 @@ public class Pixie extends Sprite {
     //BULLET STATS
     public int BULLET_SPD = 20;
 
-
     //variables for hud
     public float PERCENT_HP;
     public float PERCENT_PP;
@@ -63,15 +65,16 @@ public class Pixie extends Sprite {
     public Texture yellow = new Texture(Gdx.files.internal("huds/yellow.png"));
     public Texture gray = new Texture(Gdx.files.internal("huds/gray.png"));
     public Texture purple = new Texture(Gdx.files.internal("huds/purple.png"));
-    public Texture pin = new Texture(Gdx.files.internal("huds/green_pin.png"));
+    public PixiePin pin;
     public Texture curr = green;
 
     //shoot variables
-    private int SPD_CONT = 0;
+    private float SPEED_SHOOT = 0.5f;
     public Texture bulletTexture;
-
+    private TimeManager timer;
+    public Animator bulletAnimator;
     //ability variables
-    //public boolean abilityUsed = false;
+    public int PP_COST;
 
     //impact variables
     private Counter impactCounter;
@@ -83,6 +86,12 @@ public class Pixie extends Sprite {
     //TEST NO BORRAR !
     //Sprite rect = new Sprite(new Texture(Gdx.files.internal("huds/gray.png")));
 
+    //music & sound effects variables
+    Sound pium = Gdx.audio.newSound(Gdx.files.internal("sound effects/01.wav"));
+    boolean piumPlayed = false;
+    long piumId;
+    int piumPitch = 2;
+
     public Pixie(Texture texture,int x, int y,int HP, int ATK, int SPD){
         super();
         setPosition(x,y);
@@ -90,8 +99,6 @@ public class Pixie extends Sprite {
         scale(1);
 
         //touchRect = new Rectangle(x-80,y-80,getWidth()+160,getHeight()+160);
-
-
         touchRect = new Rectangle(getX()+getWidth()/2-80,getY() - getHeight() * 3f -80,getWidth()+160,getHeight()+220);
 
         //game logic
@@ -107,10 +114,56 @@ public class Pixie extends Sprite {
         PERCENT_HP = 100;
         COLOR_HP = 'G';
         status = "normal";
-        bulletTexture = new Texture(Gdx.files.internal("bullets/star_bullet.png"));
+        //bulletTexture = new Texture(Gdx.files.internal("bullets/star_bullet.png"));
         impactCounter = new Counter();
-        //Gdx.app.log("CLASS NAME",this.getClass().toString());
+
+        timer = new TimeManager();
+        timer.setChronometer(0);
+        timer.start();
     }
+
+    public void update(){
+        if(status.equals("dead")) return;
+        sounds();
+        animation();
+        move();
+        shoot();
+        canAbility();
+        impactCounter.update();
+        if(impactCounter.check()){
+            impactCounter.reset();
+        }
+    }
+
+    public void pause(){
+        timer.pause();
+        pium.stop(piumId);
+    }
+
+    public void unpause(){
+        Gdx.app.log("NO","SOUND");
+        timer.unpause();
+        //piumId = pium.loop(0.4f, piumPitch,0);
+        piumPlayed = false;
+    }
+
+    public void dispose(){
+        pium.stop(piumId);
+        pium.dispose();
+    }
+
+    //SOUNDS
+
+    public void sounds(){
+        if(!piumPlayed){
+            pium.stop(piumId);
+            piumId = pium.loop(0.3f, piumPitch,0);
+            piumPlayed = true;
+        }
+    }
+
+    //MOVEMENT
+
     public void fixMove(){
         int horizontalBorder = 230;
         if(getX() > horizontalBorder){
@@ -157,35 +210,27 @@ public class Pixie extends Sprite {
 
 
     }
+
+    //SHOOTING
     public void shoot(){
-        SPD_CONT++;
-        if(SPD_CONT < SPD_TOTAL) return;
-        SPD_CONT = 0;
-        GameScreen.bullets.add(new PixieBullet(this,bulletTexture, (int) (getX() + getWidth()*3/4f), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
+        if(!timer.ring()) return;
+
+        GameScreen.bullets.add(new PixieBullet(this,bulletAnimator, (int) (getX() + getWidth()/2f), (int) (getY() + getHeight()), ' ', 'U', ATK_TOTAL, BULLET_SPD));
+        timer.reset();
+        timer.setChronometer(SPEED_SHOOT);
+        timer.start();
     }
+
+    //ABILITIES
 
     public void canAbility(){
         if(!longTouched) return;
         longTouched= false;
-        //if(abilityUsed) return;
-
         ability();
     }
     public void ability(){
-
     }
 
-    public void update(){
-        if(status.equals("dead")) return;
-        animation();
-        move();
-        shoot();
-        canAbility();
-        impactCounter.update();
-        if(impactCounter.check()){
-            impactCounter.reset();
-        }
-    }
 
     //ANIMATION METHODS
 
@@ -211,15 +256,15 @@ public class Pixie extends Sprite {
 
         //batch.draw(rect.getTexture(),touchRect.getX(),touchRect.getY(),touchRect.getWidth(),touchRect.getHeight());
         animator.draw(this,batch);
-
-        batch.draw(pin,getX()+getWidth()/2,getY() - getHeight() * 3f);
+        pin.draw(batch);
+        //batch.draw(pin,getX()+getWidth()/2,getY() - getHeight() * 3f);
     }
     public void drawHUD(SpriteBatch batch){
         if(status.equals("dead")) return;
-        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f,MainGame.WIDTH*0.2f ,MainGame.HEIGHT*0.0083f);
-        batch.draw(curr, getX() - getWidth(), getY() + getHeight()*3.5f, PERCENT_HP * MainGame.WIDTH*0.2f / 100f, MainGame.HEIGHT*0.0083f);
-        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f-MainGame.HEIGHT*0.0083f,MainGame.WIDTH*0.2f ,MainGame.HEIGHT*0.0083f);
-        batch.draw(purple, getX() - getWidth(), getY() + getHeight()*3.5f-MainGame.HEIGHT*0.0083f, PERCENT_PP * MainGame.WIDTH*0.2f / 100f, MainGame.HEIGHT*0.0083f);
+        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f,MainGame.WIDTH*0.19f ,MainGame.HEIGHT*0.006f);
+        batch.draw(curr, getX() - getWidth(), getY() + getHeight()*3.5f, PERCENT_HP * MainGame.WIDTH*0.19f / 100f, MainGame.HEIGHT*0.006f);
+        batch.draw(gray,getX() - getWidth(),getY()+getHeight()*3.5f-MainGame.HEIGHT*0.006f,MainGame.WIDTH*0.19f ,MainGame.HEIGHT*0.006f);
+        batch.draw(purple, getX() - getWidth(), getY() + getHeight()*3.5f-MainGame.HEIGHT*0.006f, PERCENT_PP * MainGame.WIDTH*0.19f / 100f, MainGame.HEIGHT*0.006f);
 
     }
 
@@ -298,6 +343,7 @@ public class Pixie extends Sprite {
         if(CURRENT_HP < 0){
             CURRENT_HP = 0;
             status = "dead";
+            pause();
 
         }
         PERCENT_HP = CURRENT_HP*100/HP;
@@ -330,15 +376,19 @@ public class Pixie extends Sprite {
         }
         PERCENT_PP = CURRENT_PP*100f/PP;
     }
+
     //STAT CHANGE METHODS
     public void changeATK(int amount){
         ATK_VARIABLE += amount;
         ATK_TOTAL = ATK_FIXED + ATK_VARIABLE;
         if(ATK_TOTAL < 0) ATK_TOTAL = 0;
     }
-    public void changeSPD(int amount){
-        SPD_VARIABLE += amount;
-        SPD_TOTAL = SPD_FIXED + SPD_VARIABLE;
+    public void changeSPD(float amount){
+        //SPD_VARIABLE += amount;
+        //SPD_TOTAL = SPD_FIXED + SPD_VARIABLE;
+        SPEED_SHOOT -= amount;
+        piumPlayed = false;
+        piumPitch = (int)(1/SPEED_SHOOT);
     }
 
 }

@@ -1,6 +1,7 @@
 package huds;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,7 @@ public class WinHUD {
     private My_Button volver;
     private Sprite bg,text;
     private Sprite star;
+    private Sound jingleWin;
     public WinHUD(MainGame game){
         this.game = game;
         bg = new Sprite(new Texture(Gdx.files.internal("buttons/stage_cleared_bg.png")));
@@ -31,6 +33,7 @@ public class WinHUD {
         volver.setPosition(MainGame.WIDTH / 2 - volver.getWidth() / 2, MainGame.HEIGHT /2 - 4f*volver.getHeight());
         star = new Sprite(new Texture(Gdx.files.internal("huds/star.png")));
         star.setPosition(MainGame.WIDTH / 2 - star.getWidth() / 2, MainGame.HEIGHT / 2 + star.getHeight());
+        jingleWin = Gdx.audio.newSound(Gdx.files.internal("sound effects/03.wav"));
 
     }
     public void draw(SpriteBatch batch){
@@ -40,12 +43,16 @@ public class WinHUD {
         star.draw(batch);
 
     }
+    public void sound(){
+        jingleWin.play(1f);
+    }
     public void update(){
 
     }
     public void input(Vector3 vec){
         vec.set(vec.x, MainGame.HEIGHT - vec.y, 0);
         if(volver.getBoundingRectangle().contains(vec.x,vec.y)){
+            game.getScreen().dispose();
             game.setScreen(new WorldScreen(game));
         }
     }
